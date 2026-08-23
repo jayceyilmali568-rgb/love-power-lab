@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>恋爱力实验室 · 测一测你的恋爱能力段位</title>
+<style>
+:root{
+  --bg:#faf6f1; --card:#fffdf9; --ink:#3d3733; --ink2:#8a807a; --line:#eee4da;
+  --primary:#d4696f; --primary-soft:#f7e3e3; --green:#4e9a6f; --orange:#d98243;
+  --c-self:#7f9e8e; --c-emotion:#cf9064; --c-attachment:#b98a9a; --c-empathy:#8b95c4; --c-communication:#c9a05e; --c-repair:#93a86b;
+  --radius:14px; --shadow:0 4px 20px rgba(120,90,70,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65;min-height:100vh}
+#app{max-width:680px;margin:0 auto;padding:24px 18px 60px}
+h1,h2,h3,.serif{font-family:Georgia,"Songti SC","SimSun",serif;letter-spacing:.02em}
+a{color:var(--primary)}
+button{font-family:inherit;cursor:pointer;border:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.muted{color:var(--ink2);font-size:14px}
+.small{font-size:12px}
+.center{text-align:center}
+.btn{display:inline-block;background:var(--primary);color:#fff;font-size:17px;padding:14px 44px;border-radius:999px;transition:transform .15s,box-shadow .15s;box-shadow:0 6px 18px rgba(212,105,111,.28)}
+.btn:active{transform:scale(.97)}
+.btn.full{display:block;width:100%;text-align:center}
+.btn.ghost{background:#fff;color:var(--primary);border:1.5px solid var(--primary);box-shadow:none}
+.btn.weak{background:#f0e6df;color:#9a8f88;box-shadow:none}
+.btn:disabled{background:#e7ddd5;color:#b6aca4;box-shadow:none;cursor:not-allowed}
+.progress-wrap{height:6px;background:#f0e6df;border-radius:3px;overflow:hidden;margin:14px 0 4px}
+.progress-bar{height:100%;background:var(--primary);border-radius:3px;transition:width .3s}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;font-size:15.5px;color:var(--ink);transition:all .15s;line-height:1.5}
+.opt:hover{border-color:var(--primary)}
+.opt.sel{border-color:var(--primary);background:var(--primary-soft)}
+.dim-chip{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;color:#fff}
+.score-big{font-size:56px;font-weight:700;font-family:Georgia,serif}
+.dimrow{border:1px solid var(--line);border-radius:12px;background:#fff;padding:16px;margin-top:12px}
+.dimrow .head{display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.badge{display:inline-block;font-size:11px;padding:1px 8px;border-radius:6px;background:#f4ede6;color:#8a807a;margin-left:6px;vertical-align:middle}
+.tag-b{background:#e7f2ec;color:var(--green)} .tag-o{background:#faeee2;color:var(--orange)}
+.weakbox{background:#f8f3ee;border-left:3px solid var(--orange);border-radius:6px;padding:10px 12px;margin-top:10px;font-size:14px}
+.next-step{margin-top:12px;font-size:14.5px;color:var(--primary);font-weight:600}
+.encourage{margin-top:14px;border:1px solid #cfe5d8;background:#f2f9f5;border-radius:10px;padding:12px 14px;font-size:14px;color:#3d6b52}
+.res-item{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:10px;background:#fffdf9}
+.search-btn{margin-top:8px;display:inline-block;font-size:13px;background:#f4ede6;color:#8a5a3a;padding:6px 14px;border-radius:999px}
+.dimdot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:baseline}
+.modal-mask{position:fixed;inset:0;background:rgba(60,45,40,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+.modal{background:var(--card);border-radius:16px;max-width:460px;width:100%;padding:24px;max-height:80vh;overflow:auto}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:40px;background:rgba(61,55,51,.92);color:#fff;padding:10px 22px;border-radius:999px;font-size:14px;z-index:99}
+.radar-legend{display:flex;gap:16px;justify-content:center;font-size:12px;color:var(--ink2);margin-top:6px;flex-wrap:wrap}
+.hero{padding:60px 22px 46px;text-align:center}
+.hero h1{font-size:32px;margin-bottom:14px}
+.celebrate{background:var(--primary);color:#fff;border-radius:12px;padding:14px;text-align:center;font-size:15px;margin-top:14px}
+.constructive{background:#faeee2;color:#9a5a2a;border-radius:12px;padding:14px;text-align:center;font-size:15px;margin-top:14px}
+@media (max-width:480px){ .hero h1{font-size:26px} .score-big{font-size:46px} #app{padding:16px 14px 50px} }
+.kv{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.kv:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* =====================================================
+   恋爱力实验室 · 单文件 Web 应用
+   方法论：vibe coding 课程流程（需求分析→风格→CAT→诊断→闭环→兜底）
+   ===================================================== */
+
+/* ---------- 维度定义（依恋理论 × 情绪脑科学） ---------- */
+const DIMS = [
+  {id:'self',          name:'自我认知', color:'#7f9e8e', desc:'恋爱脑检测 · 你是先是自己，还是先是恋人'},
+  {id:'emotion',       name:'情绪调节', color:'#cf9064', desc:'杏仁核劫持测试 · 情绪上头时谁在掌舵'},
+  {id:'attachment',    name:'依恋模式', color:'#b98a9a', desc:'安全型 / 焦虑型 / 回避型，你的依恋底色'},
+  {id:'empathy',       name:'共情能力', color:'#8b95c4', desc:'你是接住情绪，还是急着讲道理'},
+  {id:'communication', name:'沟通表达', color:'#c9a05e', desc:'你能把委屈说成需求，还是说成指责'},
+  {id:'repair',        name:'冲突修复', color:'#93a86b', desc:'戈特曼说的"修复尝试"，你会用吗'},
+];
+const DIMMAP = {}; DIMS.forEach(d=>DIMMAP[d.id]=d);
+
+/* ---------- 题库：每维度 10 题，难度 1-5 各 2 题 ----------
+   数据模型：id / dim 维度 / diff 难度 / q 题干 / o 选项{s:分值1-4, t:文本, tag:低分陷阱标签} / p 考察点 / a 解析 */
+const QUESTIONS = [
+/* ===== 自我认知 self ===== */
+{id:101,d:'self',diff:1,p:'恋爱中的社交边界',q:'恋爱后朋友约你周末聚会，对象也希望你陪TA，你会：',o:[
+ {t:'看自己这周的状态和安排，跟两边都坦诚沟通好',s:4},
+ {t:'轮流安排，这次陪对象，下周赴朋友的约',s:3},
+ {t:'直接推掉朋友聚会，对象最大',s:2,tag:'伴侣优先型失联'},
+ {t:'每次都答应对象，朋友渐渐不再叫你',s:1,tag:'社交圈萎缩'}],
+ a:'健康的边界是"我选择陪谁"，而不是"我必须陪谁"。轮流安排或坦诚沟通都保留了自我决定权。'},
+{id:102,d:'self',diff:1,p:'自我价值感来源',q:'对象三天没主动找你，你的第一反应更接近：',o:[
+ {t:'TA大概在忙，我先过好自己的日子',s:4},
+ {t:'有点在意，但会直接问一句"最近忙吗"',s:3},
+ {t:'TA是不是不爱我了？反复翻聊天记录找证据',s:1,tag:'自我价值外包'},
+ {t:'心里不舒服，但假装不在意，等TA先开口',s:2,tag:'压抑式应对'}],
+ a:'安全型的人把注意力放回自己身上；焦虑型会把"TA的回应"当成自己价值的计分板。'},
+{id:103,d:'self',diff:2,p:'独立性与共生',q:'你发现恋爱后自己"越来越没有生活了"，你会：',o:[
+ {t:'警觉起来，重新捡起恋爱前的爱好和朋友圈',s:4},
+ {t:'跟对象聊一次，约定各自保留独处时间',s:4},
+ {t:'有点慌，但觉得热恋期这样很正常',s:2,tag:'合理化让渡'},
+ {t:'觉得爱一个人就该全部投入，这样才叫真爱',s:1,tag:'融合式恋爱观'}],
+ a:'自我分化程度高的人会在融合警报响起时主动恢复边界，而不是用"真爱叙事"合理化自我消失。'},
+{id:104,d:'self',diff:2,p:'外部反馈的处理',q:'朋友认真地说"你恋爱后变了个人"，你会：',o:[
+ {t:'认真问问具体哪里变了，自己对照反思',s:4},
+ {t:'嘴上敷衍，但之后偷偷观察自己',s:3},
+ {t:'觉得朋友嫉妒我，左耳进右耳出',s:1,tag:'反馈防御'},
+ {t:'有点受伤，开始怀疑这段感情',s:2,tag:'归因于关系'}],
+ a:'能听取外部反馈并自查，是自我认知成熟的核心标志；把反馈妖魔化或全盘归因于关系，都会关闭成长通道。'},
+{id:105,d:'self',diff:3,p:'比较与自尊',q:'对象升职加薪远超你，朋友调侃你"高攀了"，你内心：',o:[
+ {t:'为TA高兴，我的价值不由收入对比定义',s:4},
+ {t:'偶尔有点酸，但会化动力而不是憋着',s:3},
+ {t:'表面祝贺，内心开始回避跟TA一起出席场合',s:2,tag:'隐性自卑回避'},
+ {t:'要求TA在外人面前"低调点"，别让我难堪',s:1,tag:'打压式防御'}],
+ a:'自尊稳定的人可以欣赏伴侣的优秀而不自贬；用回避或打压来处理落差，会把比较变成关系的暗伤。'},
+{id:106,d:'self',diff:3,p:'独处的质量',q:'对"恋爱中的独处时间"，你的真实态度是：',o:[
+ {t:'主动安排独处，这是我的充电方式',s:4},
+ {t:'有最好，没有也能接受',s:3},
+ {t:'TA不在身边我就坐立难安，独处等于孤独',s:1,tag:'独处耐受低'},
+ {t:'会要独处，但独处时忍不住一直刷TA动态',s:2,tag:'假性独处'}],
+ a:'能否高质量独处是自我强度的重要指标——"人在独处，心在对方动态里"是一种假性独处。'},
+{id:107,d:'self',diff:4,p:'关系结束后的自我叙事',q:'回看一段结束的感情，你更倾向于：',o:[
+ {t:'看到自己的成长点和责任，也看到对方的问题',s:4},
+ {t:'主要反思自己"哪里做得不够好"',s:2,tag:'过度自责叙事'},
+ {t:'主要是"遇人不淑"，全是对方的问题',s:1,tag:'全外归因'},
+ {t:'不敢回想，那段记忆被封存了',s:2,tag:'回避式封存'}],
+ a:'成熟的自叙是双向归因：既承认自己的功课，也承认对方的问题。全自责或全指责都是认知失衡。'},
+{id:108,d:'self',diff:4,p:'被反馈"太黏"',q:'对象说"我觉得你最近太黏我了"，你的内心反应：',o:[
+ {t:'先觉察：我黏是因为焦虑还是单纯喜欢？再谈',s:4},
+ {t:'有点受伤，但愿意听听具体表现',s:3},
+ {t:'"黏你是因为爱你啊"，觉得被辜负',s:2,tag:'爱的名义绑架'},
+ {t:'当场冷下来，之后开始刻意疏远惩罚TA',s:1,tag:'疏离式报复'}],
+ a:'被指出"太黏"时，先自我觉察再回应是高成熟度反应；用"爱"包装焦虑，或用疏远实施惩罚，都是防御。'},
+{id:109,d:'self',diff:5,p:'自我价值的锚点',q:'如果这段感情明天结束，你的自我价值感会：',o:[
+ {t:'基本不动摇，难过归难过，我仍知道我是谁',s:4},
+ {t:'会晃一阵，但慢慢能站稳',s:3},
+ {t:'塌一大块，会觉得"我不值得被爱"',s:1,tag:'价值锚点外置'},
+ {t:'无所谓，反正我也没投入多少真心',s:1,tag:'预防性抽离'}],
+ a:'自我价值的锚点在内，失恋是"失去一段关系"；锚点在外，失恋变成"失去我自己"。预防性抽离则是另一种自我保护过度。'},
+{id:110,d:'self',diff:5,p:'祛魅期的自我调整',q:'关系稳定后你发现对象身上缺点越来越多，你会：',o:[
+ {t:'区分"原则问题"和"滤镜破碎"，调整期待',s:4},
+ {t:'跟朋友吐槽消化，但不影响感情主线',s:3},
+ {t:'开始怀疑当初是不是看走了眼，冷淡观察',s:2,tag:'祛魅即贬值的滑坡'},
+ {t:'说服自己"爱情就是忍"，全都咽下去',s:1,tag:'压抑式忍耐'}],
+ a:'所有长期关系都会经历祛魅期。成熟者把祛魅当校准，把缺点放回"人类均值"里看；滑坡式贬值或压抑忍耐都会埋雷。'},
+
+/* ===== 情绪调节 emotion ===== */
+{id:201,d:'emotion',diff:1,p:'情绪传染的隔离',q:'对象回消息越来越慢，你的心情：',o:[
+ {t:'基本不受影响，各忙各的',s:4},
+ {t:'有点在意，但能自己消化',s:3},
+ {t:'一整天心神不宁，工作都在等TA回复',s:1,tag:'注意力被劫持'},
+ {t:'故意也隔很久才回，制造"扯平"',s:2,tag:'报复性延迟'}],
+ a:'消息回复速度是最常见的情绪扳机。情绪独立的人不会让"对方回不回消息"决定自己一天的质量。'},
+{id:202,d:'emotion',diff:1,p:'愤怒的延迟反应',q:'约会当天对象迟到 40 分钟，你会：',o:[
+ {t:'先确认安全，再说明迟到对我的影响',s:4},
+ {t:'当下不发作，事后找机会平静说出不满',s:3},
+ {t:'当场冷脸，整场约会都摆着脸色',s:2,tag:'被动攻击'},
+ {t:'当场发火，把以前的事也翻出来一起说',s:1,tag:'情绪决堤'}],
+ a:'愤怒的成熟处理是"延迟+表达"，不是"延迟+攻击"或"当场决堤"。'},
+{id:203,d:'emotion',diff:2,p:'情绪的转移',q:'你在公司受了委屈，对象恰好打电话来，你会：',o:[
+ {t:'直接说"我今天很丧，需要你听我吐糟"',s:4},
+ {t:'忍着聊正常话题，之后找机会讲',s:3},
+ {t:'没忍住把火撒在TA身上',s:1,tag:'踢猫效应'},
+ {t:'什么都不说，但语气冷得让TA莫名其妙',s:2,tag:'冷传导'}],
+ a:'情绪转移（踢猫效应）是亲密关系头号暗伤。能直接命名情绪状态，是情绪调节的第一步。'},
+{id:204,d:'emotion',diff:2,p:'尴尬场景的情绪管理',q:'对象在朋友面前开了让你尴尬的玩笑，你会：',o:[
+ {t:'当场轻松回一句化解，私下再告诉TA感受',s:4},
+ {t:'当场忍住，事后认真跟TA谈',s:3},
+ {t:'当场黑脸离席，给TA难堪',s:1,tag:'当众反击'},
+ {t:'笑着配合，回家后冷战三天',s:2,tag:'延迟爆雷'}],
+ a:'高段位的处理是"当场给面子、私下给真实"。当众反击和延迟爆雷都会把小事升级成战争。'},
+{id:205,d:'emotion',diff:3,p:'安慰方式的错位',q:'你心情低落，对象的安慰方式完全不对路（讲道理），你会：',o:[
+ {t:'直接说"我 now 不需要建议，只需要抱抱"',s:4},
+ {t:'有点失望，但能理解TA在努力',s:3},
+ {t:'觉得TA根本不懂我，越想越委屈',s:2,tag:'沉默失望累积'},
+ {t:'反问"你到底爱不爱我"，把安慰问题变成立场问题',s:1,tag:'议题升级'}],
+ a:'会"点单式表达需求"的人极少内耗。把"安慰不对路"升级成"爱不爱我"，是把具体问题抽象化的灾难现场。'},
+{id:206,d:'emotion',diff:3,p:'生理唤起时的刹车',q:'吵架吵到心跳加速、脑子发热、声音变大，你会：',o:[
+ {t:'主动喊停："我需要 20 分钟冷静下再继续"',s:4},
+ {t:'努力压低音量，但话还是要说完',s:3},
+ {t:'越吵越凶，不吵出结果不罢休',s:1,tag:'情绪泛滥'},
+ {t:'直接摔门走人，消失几小时',s:2,tag:'宕机式逃离'}],
+ a:'戈特曼研究发现：心率超过 100 次/分时，人的倾听和理解能力大幅下降。此时主动暂停是科学，不是逃跑；但摔门消失是宕机。'},
+{id:207,d:'emotion',diff:4,p:'嫉妒的精细管理',q:'对象前任点赞了TA的朋友圈，你的处理：',o:[
+ {t:'一个赞而已，不当事件处理',s:4},
+ {t:'有点在意，半开玩笑地说出感受',s:4},
+ {t:'盯着那个赞研究了半小时TA的账号',s:2,tag:'侦察式焦虑'},
+ {t:'要求对象删好友并交代全部历史',s:1,tag:'控制式查岗'}],
+ a:'嫉妒的成熟刻度：能承认"我在意"，同时不升级为侦查和控制。查岗换来的是表面服从+暗地反抗。'},
+{id:208,d:'emotion',diff:4,p:'翻旧账的觉察',q:'你发现自己开始"翻旧账"了，最可能的真实原因是：',o:[
+ {t:'旧伤没被真正处理，我在用旧账提醒TA',s:4},
+ {t:'最近压力大，情绪阈值变低了',s:3},
+ {t:'TA就是屡教不改，不翻旧账TA不长记性',s:2,tag:'惩罚性沟通'},
+ {t:'不知道，忍不住就翻了',s:1,tag:'情绪觉察缺失'}],
+ a:'翻旧账的本质是"旧议题从未关闭"。能觉察到这一层的人会回到议题本身，而不是把新吵架变成旧账展览。'},
+{id:209,d:'emotion',diff:5,p:'长期情绪波动归因',q:'长期关系里你情绪波动的主要来源是：',o:[
+ {t:'自己的压力和周期，与关系关系不大',s:4},
+ {t:'关系里的具体议题，能指出是哪几件',s:4},
+ {t:'说不上来，就是TA做什么我都容易烦',s:2,tag:'弥散性烦躁'},
+ {t:'TA的情绪就是我的天气，TA不高兴我就慌',s:1,tag:'情绪完全共振'}],
+ a:'能区分"我的情绪"和"关系的问题"，是情绪颗粒度高的表现；弥散性烦躁和完全共振都是边界失守的信号。'},
+{id:210,d:'emotion',diff:5,p:'冷暴力耐受与解读',q:'对象连续一周对你冷淡，你的情绪管理路径：',o:[
+ {t:'先稳住自己，再找机会平静问"我们之间发生了什么"',s:4},
+ {t:'难受但扛住，用正常生活节奏等TA缓过来',s:3},
+ {t:'以冷制冷，比TA更冷',s:1,tag:'冷暴力对轰'},
+ {t:'焦虑到失眠，反复自我检讨哪里做错了',s:2,tag:'过度自我攻击'}],
+ a:'面对冷淡，成熟路径是"先锚定自己，再发起对话"。对轰会让冷战制度化，过度自责则把自己变成情绪人质。'},
+
+/* ===== 依恋模式 attachment ===== */
+{id:301,d:'attachment',diff:1,p:'分离情境的反应',q:'对象出差一周，联系变少，你会：',o:[
+ {t:'各自安好，有事说事，视频随缘',s:4},
+ {t:'有点想TA，会主动表达想念',s:4},
+ {t:'每天必须固定视频，缺一次就坐立不安',s:1,tag:'焦虑型监控'},
+ {t:'正好清静，TA回来之前我基本想不起来联系',s:2,tag:'回避型去激活'}],
+ a:'安全型既能表达想念也能耐受距离。固定打卡式监控是焦虑型信号，"想不起来联系"是回避型的去激活策略。'},
+{id:302,d:'attachment',diff:1,p:'亲密距离偏好',q:'你更舒服的相处节奏是：',o:[
+ {t:'亲密但有各自空间，想念了就说',s:4},
+ {t:'最好天天黏在一起，分开就难受',s:2,tag:'融合需求'},
+ {t:'一周见一两次就好，太频繁会累',s:3},
+ {t:'我喜欢你，但别动我的私人领域',s:2,tag:'领地化防御'}],
+ a:'依恋研究里最稳定的模式是"安全型：能亲近也能分离"。融合需求和领地化防御分别是焦虑型与回避型的日常表现。'},
+{id:303,d:'attachment',diff:2,p:'嫉妒与信任',q:'对象和异性同事走得比较近（正常协作），你会：',o:[
+ {t:'信任TA，偶尔听TA聊这位同事也不在意',s:4},
+ {t:'有点在意，会直接说感受但不限制TA',s:4},
+ {t:'查TA聊天记录、行程，确认没问题才安心',s:1,tag:'侦查式确认'},
+ {t:'表面无所谓，心里记一笔，攒着',s:2,tag:'隐性记账'}],
+ a:'信任的关键不是"确认TA没问题"，而是"即使有风险我也敢先选择信任"。侦查和记账都在腐蚀关系地基。'},
+{id:304,d:'attachment',diff:2,p:'爱的表达主动度',q:'你表达爱意的方式通常是：',o:[
+ {t:'直接说"我想你了/我喜欢你"，自然不别扭',s:4},
+ {t:'含蓄暗示，等对方先说再回应',s:3},
+ {t:'几乎不主动表达，怕掉价/怕被拒绝',s:2,tag:'防御性被动'},
+ {t:'疯狂付出式表达，恨不得包办TA的生活',s:2,tag:'讨好式供给'}],
+ a:'安全型的表达是"直接、轻盈、可承受拒绝"；防御性被动和讨好式供给分别是回避与焦虑的表达变形。'},
+{id:305,d:'attachment',diff:3,p:'关系初期的状态',q:'关系刚确定时，你的典型状态是：',o:[
+ {t:'享受甜蜜，同时保持观察，慢慢敞开',s:4},
+ {t:'迅速全情投入，第三天就开始规划未来',s:2,tag:'热恋加速'},
+ {t:'经常冒出"TA真的喜欢我吗"，需要反复确认',s:2,tag:'确认成瘾'},
+ {t:'投入的同时隐隐预感"肯定长不了"',s:2,tag:'预防性悲观'}],
+ a:'依恋理论认为，关系初期是依恋模式的显影液。安全型敢"慢热敞开"，焦虑型加速+确认成瘾，回避型预防性悲观。'},
+{id:306,d:'attachment',diff:3,p:'对"空间需求"的解读',q:'对象说"我需要一点自己的空间"，你的解读是：',o:[
+ {t:'正常需求，正好我也有自己的事',s:4},
+ {t:'有点失落，但会问清楚要多大空间',s:4},
+ {t:'TA是不是在铺垫分手？开始恐慌',s:1,tag:'灾难化解读'},
+ {t:'行，那我也冷着，看谁先受不了',s:2,tag:'竞争式退缩'}],
+ a:'"要空间"在安全型耳中是正常需求，在焦虑型耳中是分手预警，在回避型耳中是开战信号——解读方式就是依恋底色。'},
+{id:307,d:'attachment',diff:4,p:'测试行为',q:'你发现自己总在"测试"对方爱不爱你（故意晚回消息、假装生气看反应），你会：',o:[
+ {t:'承认这是焦虑在作祟，直接说出需求',s:4},
+ {t:'意识到不对，但不知道怎么改',s:3},
+ {t:'不觉得是问题，测试是必要的风控',s:1,tag:'测试合理化'},
+ {t:'测出不好的结果就冷TA几天，看TA会不会挽回',s:1,tag:'惩罚性测试'}],
+ a:'测试行为本质是"用制造危机的方式索取安心"，结果往往弄假成真。觉察即是改变的开始。'},
+{id:308,d:'attachment',diff:4,p:'夜间焦虑窗口',q:'深夜发消息对象没回，凌晨你醒来第一件事：',o:[
+ {t:'看了眼没回，翻身继续睡',s:4},
+ {t:'有点挂心，但能劝自己TA在睡觉',s:4},
+ {t:'反复检查是否发错、是否被已读不回',s:2,tag:'夜间反刍'},
+ {t:'连发几条质问"你睡了吗？为什么不回"',s:1,tag:'焦虑夜袭'}],
+ a:'深夜是依恋系统最脆弱的时间窗——皮质醇升高、理性下线。此时的行为最能暴露真实依恋类型。'},
+{id:309,d:'attachment',diff:5,p:'追逃循环',q:'你们吵架后的典型走向是：',o:[
+ {t:'当天或次日能坐下来把话说开',s:4},
+ {t:'一个想谈、一个想逃，但最终能谈',s:3},
+ {t:'我越追着要说法，TA越沉默，循环加深',s:2,tag:'追逃循环-追方'},
+ {t:'TA越情绪化，我越不想说话，最后不了了之',s:2,tag:'追逃循环-逃方'}],
+ a:'"追-逃"是依恋系统最经典的死亡螺旋：一方把靠近当解药，一方把距离当解药，彼此的解药都是对方的毒药。'},
+{id:310,d:'attachment',diff:5,p:'亲密恐惧的底层',q:'当关系变得非常亲密、快要"合二为一"时，你的深层感受是：',o:[
+ {t:'安心，被深深接纳',s:4},
+ {t:'幸福中夹杂一点"我怕依赖上TA"的警觉',s:3},
+ {t:'莫名想逃，会主动制造距离',s:2,tag:'亲密回避'},
+ {t:'开始挑剔TA的缺点，为"下头"做准备',s:1,tag:'去激活贬损'}],
+ a:'恐惧型依恋的典型机制：亲密逼近时启动"去激活策略"（挑剔、疏远、怀旧前任），用贬损对方来压住自己的依恋需求。'},
+
+/* ===== 共情能力 empathy ===== */
+{id:401,d:'empathy',diff:1,p:'情绪优先级',q:'对象说"今天被领导当众批评了"，你的第一反应：',o:[
+ {t:'先问"你现在感觉怎么样"',s:4},
+ {t:'先说"怎么回事，跟我说说"',s:4},
+ {t:'先说"领导批评你肯定是你有地方没做好"',s:1,tag:'先讲道理'},
+ {t:'说"这算什么，我今天更惨"',s:1,tag:'比惨式抢话'}],
+ a:'共情第一定律：先接情绪，再谈事实。讲道理和比惨都会让对方感觉"我的痛苦不重要"。'},
+{id:402,d:'empathy',diff:1,p:'丧失情境的陪伴',q:'对象养的猫去世了，TA很难过，你会：',o:[
+ {t:'抱着TA，允许TA哭，听TA讲猫的故事',s:4},
+ {t:'陪着TA，说"我知道你有多爱它"',s:4},
+ {t:'"别哭了，再养一只就好了"',s:1,tag:'解决方案跳步'},
+ {t:'"一只猫而已，不至于吧"',s:1,tag:'情感最小化'}],
+ a:'丧失情境里，任何"快速翻篇"的安慰（再养一只/不至于）都是情感最小化——被否定的不只是悲伤，还有TA和猫的感情。'},
+{id:403,d:'empathy',diff:2,p:'兴趣错位时的在场',q:'对象兴奋地讲你完全不感兴趣的爱好（如球星数据），你会：',o:[
+ {t:'认真听，追问细节，享受TA发光的样子',s:4},
+ {t:'听一会儿，诚恳说"我听不太懂但爱看你讲"',s:4},
+ {t:'一边刷手机一边"嗯嗯哦哦"',s:2,tag:'敷衍式在场'},
+ {t:'直接说"讲点有意思的行吗"',s:1,tag:'兴趣否定'}],
+ a:'共情不等于对内容感兴趣，而是对"TA的状态"感兴趣。敷衍在场和兴趣否定传递的都是"你的世界与我无关"。'},
+{id:404,d:'empathy',diff:2,p:'情绪信号识别',q:'对象说"我没事"，但语气明显不对，你会：',o:[
+ {t:'"你嘴上说没事，但我感觉你有事，想聊吗"',s:4},
+ {t:'先不逼问，默默倒杯水陪着，找机会再问',s:4},
+ {t:'TA说没事那就是没事，转头玩游戏去了',s:2,tag:'字面主义'},
+ {t:'"你每次都这样，有事就说啊，猜来猜去烦死了"',s:1,tag:'指责式追问'}],
+ a:'"没事"常常是"我还不知道怎么开口"。字面主义会错过求助信号，指责式追问则把门焊死。'},
+{id:405,d:'empathy',diff:3,p:'背景差异的理解',q:'对象家境普通，你提议的约会TA总是犹豫，你会：',o:[
+ {t:'意识到可能是消费压力，主动聊消费观',s:4},
+ {t:'不动声色地把约会改成长富多样、开销适中的形式',s:4},
+ {t:'觉得TA抠门，跟朋友吐槽过',s:1,tag:'动机贬损'},
+ {t:'继续按自己的标准安排，"我又没让TA出钱"',s:2,tag:'忽视结构性压力'}],
+ a:'共情的高阶形态是看见"行为背后的处境"。犹豫未必是抠门，可能是TA在为这段关系做财务自尊的平衡。'},
+{id:406,d:'empathy',diff:3,p:'挫败时刻的托举',q:'对象在重要场合搞砸了（求婚发言/述职/见家长），很沮丧，你会：',o:[
+ {t:'先肯定TA为这次付出的准备，再说"我看到你的努力了"',s:4},
+ {t:'陪着复盘，但先等情绪过去',s:4},
+ {t:'"我早就跟你说过要好好准备"',s:1,tag:'事后诸葛亮'},
+ {t:'帮TA把责任推给环境："都怪那个主持人"',s:2,tag:'虚假托举'}],
+ a:'挫折时刻的共情是"先看见努力，再处理事情"。事后诸葛亮式批评和全盘外归因，一个伤人，一个虚假。'},
+{id:407,d:'empathy',diff:4,p:'无法感同身受时',q:'对象的痛苦你无法真正体会（如孕吐/失去至亲），你会：',o:[
+ {t:'承认"我无法完全体会，但我一直都在"',s:4},
+ {t:'默默研究相关资料，做具体的小事照顾TA',s:4},
+ {t:'"我懂我懂，我上次生病也是这样"',s:2,tag:'虚假共情'},
+ {t:'因为帮不上忙而烦躁，躲去加班',s:1,tag:'无助感回避'}],
+ a:'承认共情有边界反而更真诚。虚假共情（我懂我懂）和无助感回避（躲走）都会让受苦的人感到加倍的孤独。'},
+{id:408,d:'empathy',diff:4,p:'被伤害后的换位',q:'吵架时对方说了很伤人的话，你能理解TA背后的原因吗：',o:[
+ {t:'能分清"TA说的话"和"TA的痛点"，回应痛点',s:4},
+ {t:'很难，但愿意在冷静后试着理解',s:3},
+ {t:'不能，说伤人的话就是不爱我，没得洗',s:1,tag:'行为即人品'},
+ {t:'我从不惹TA说伤人的话',s:2,tag:'自我豁免'}],
+ a:'高共情者能在被刺伤的同时看见"对方为什么出剑"。这不是原谅，是信息量更大的理解。"自我豁免"则关闭了一切反思。'},
+{id:409,d:'empathy',diff:5,p:'共情与解决的切换',q:'关于"共情"和"解决问题"，你的理解是：',o:[
+ {t:'先问"你要陪伴还是建议"，按需供给',s:4},
+ {t:'默认先陪伴，对方明确求助再给方案',s:4},
+ {t:'给方案就是我的爱，别整虚的',s:2,tag:'工具化关心'},
+ {t:'都重要，但TA情绪上来时我说不了软话',s:2,tag:'共情失能'}],
+ a:'"先问需要什么"是共情的元技能。用"给方案"代替"给陪伴"，本质是回避情绪互动——对方收到的是服务，不是爱。'},
+{id:410,d:'empathy',diff:5,p:'共情耗竭的管理',q:'对象抑郁情绪反复，长期照顾让你疲惫，你会：',o:[
+ {t:'诚实告知疲惫，同时安排自己的支持系统',s:4},
+ {t:'撑住，但定期找朋友/咨询师疏解',s:4},
+ {t:'开始烦躁，话里带刺："你怎么还没好"',s:1,tag:'照护者耗竭攻击'},
+ {t:'彻底消失几天，等TA好点再回来',s:1,tag:'断裂式撤退'}],
+ a:'长期共情必然耗竭。健康的方式是"诚实+自我支持"，而不是带着怨气硬撑或突然断裂——后者对抑郁者是毁灭性打击。'},
+
+/* ===== 沟通表达 communication ===== */
+{id:501,d:'communication',diff:1,p:'需求的直接表达',q:'你希望对象多陪陪你，你会说：',o:[
+ {t:'"这周我们找一天只属于彼此好不好"',s:4},
+ {t:'"你最近陪我有点少，我有点失落"',s:4},
+ {t:'什么都不说，等TA自己意识到',s:1,tag:'猜心游戏'},
+ {t:'"你心里到底有没有我？"（开场即指责）',s:2,tag:'指控式开场'}],
+ a:'非暴力沟通第一课：说感受和需求，不做人身指控。"等TA自己意识到"是猜心游戏，几乎必输。'},
+{id:502,d:'communication',diff:1,p:'偏好的坦诚',q:'对象问"今晚吃什么"，你其实想吃火锅，但TA刚说不想吃辣，你会：',o:[
+ {t:'"我挺想吃火锅的，要不找家鸳鸯锅/不辣的？"',s:4},
+ {t:'"都行，你定吧"（其实心里想火锅）',s:2,tag:'假随和'},
+ {t:'"随便"——然后TA选了日料你全程没笑脸',s:1,tag:'假随和+报复性黑脸'},
+ {t:'"就吃火锅，我今天就想吃这个"',s:3}],
+ a:'假随和是关系的慢性毒药：表面没需求，实际用黑脸收利息。真实表达偏好才有真协商。'},
+{id:503,d:'communication',diff:2,p:'不满的累积处理',q:'对象有个你不满已久的习惯（如乱丢袜子），你会：',o:[
+ {t:'就事论事提一次，约定一个双方都能接受的方案',s:4},
+ {t:'默默捡起来，但心里记着账',s:2,tag:'沉默记账'},
+ {t:'忍到某次吵架时跟别的事一起总爆发',s:1,tag:'攒雷式爆发'},
+ {t:'每次看见就阴阳怪气说两句',s:1,tag:'阴阳怪气'}],
+ a:'小事的正确处理是"小步、及时、就事论事"。记账、攒雷、阴阳怪气都会把袜子问题升级成人格问题。'},
+{id:504,d:'communication',diff:2,p:'送命题的应对',q:'对象问"我和你前任谁更好"，你会：',o:[
+ {t:'"没有可比性——因为我现在选的、以后一起过的人是你"',s:4},
+ {t:'"你更好，前任早忘了"（快速灭火）',s:3},
+ {t:'认真分析各自优缺点，给对方打分',s:1,tag:'理性送死'},
+ {t:'"又来了，能不能别问这种无聊问题"',s:1,tag:'需求否定'}],
+ a:'送命题考的不是事实，是"你会不会接住我的不安全感"。理性分析和否定需求都是不及格答卷。'},
+{id:505,d:'communication',diff:3,p:'敏感议题的开启',q:'关于彩礼/异地/未来规划这类敏感话题，你们的沟通方式：',o:[
+ {t:'提前约定"我们要谈一个难的话题"，正式谈',s:4},
+ {t:'在气氛好的时候顺势聊起，逐步深入',s:4},
+ {t:'一直没敢正面谈，怕谈崩',s:2,tag:'敏感话题搁置'},
+ {t:'在吵架时拿出来当武器',s:1,tag:'议题武器化'}],
+ a:'戈特曼的"软化开场"原则：敏感议题要在和平时期、用低姿态开启。搁置会让它变成定时炸弹，武器化则直接引爆。'},
+{id:506,d:'communication',diff:3,p:'被误解时的澄清',q:'对象误解了你的意思，生气质问"你就是不在乎我"，你会：',o:[
+ {t:'先接住情绪："你这么想一定很难受"，再澄清事实',s:4},
+ {t:'直接澄清事实："我不是那个意思，你听我说"',s:3},
+ {t:'"你爱怎么想怎么想"（放弃沟通）',s:1,tag:'沟通弃权'},
+ {t:'反攻："你上次还怎么怎么样呢"',s:1,tag:'反向指控'}],
+ a:'被误解时先接情绪再澄清，成功率翻倍。弃权和反攻都会把"误会"升级成"战争"。'},
+{id:507,d:'communication',diff:4,p:'委屈的表达路径',q:'你感到委屈但怕引发吵架，通常你会：',o:[
+ {t:'给自己 24 小时，然后一定找机会说出来',s:4},
+ {t:'用文字（消息/信）把感受写清楚发给TA',s:4},
+ {t:'咽下去，希望时间冲淡',s:2,tag:'委屈内化'},
+ {t:'等TA发现我不对劲来问我',s:1,tag:'被动求发掘'}],
+ a:'委屈的保质期很短：24 小时内表达是澄清，一周后表达是爆发，咽下去则是内伤。文字表达是很好的降级工具。'},
+{id:508,d:'communication',diff:4,p:'深层需求的袒露',q:'你的深层需求（如"我安全感低，需要你报备"），你会：',o:[
+ {t:'坦诚袒露并说明触发机制，一起找办法',s:4},
+ {t:'暗示过，希望TA能懂',s:2,tag:'暗示外交'},
+ {t:'说出来太丢人/显得矫情，不说',s:1,tag:'需求羞耻'},
+ {t:'用生气的方式逼TA猜出来',s:1,tag:'情绪化索爱'}],
+ a:'深层需求的袒露是关系深度的分水岭。暗示、羞耻和逼猜，都会让最需要被看见的部分永远不被看见。'},
+{id:509,d:'communication',diff:5,p:'高压对话的维持',q:'对话中对方情绪激动、开始指责你，你的沟通策略：',o:[
+ {t:'不接"指责"的招，只回应其中的事实和需求',s:4},
+ {t:'承认部分责任降温："这件事我确实有做得不好的地方"',s:4},
+ {t:'音量对等升级，气势不能输',s:1,tag:'对轰升级'},
+ {t:'立刻道歉认错，只求赶紧结束',s:2,tag:'灭火式投降'}],
+ a:'高压对话的核心是"只接内容，不接情绪攻击"。对轰是 escalation，无条件投降则会让真实议题永远谈不成。'},
+{id:510,d:'communication',diff:5,p:'无话期重启',q:'长期关系里你发现你们"没话说"了，你会：',o:[
+ {t:'发起"我们聊聊天吧"，从最近各自的感受聊起',s:4},
+ {t:'一起做一件新事情（旅行/学东西），创造话题',s:4},
+ {t:'正常，老夫老妻都这样，刷各自的手机',s:2,tag:'无话合理化'},
+ {t:'有点慌，怀疑感情变淡，但不知道说什么',s:2,tag:'失语焦虑'}],
+ a:'"没话说"分两种：舒适沉默（健康）和无话期（危险信号）。主动重启对话或共创新体验，都是关系的再投资。'},
+
+/* ===== 冲突修复 repair ===== */
+{id:601,d:'repair',diff:1,p:'破冰的主动性',q:'吵完架冷战三天，谁先开口？',o:[
+ {t:'我。我知道冷战解决不了任何问题',s:4},
+ {t:'看情况，但我会在气消后主动找TA',s:4},
+ {t:'绝不是我。谁先低头谁就输了',s:1,tag:'冷战竞争'},
+ {t:'我会点一份TA爱吃的外卖当作暗示',s:3}],
+ a:'冷战里没有赢家，只有一起输的合伙人。行动式破冰（外卖暗示）及格，语言式破冰（直接开口）最优。'},
+{id:602,d:'repair',diff:1,p:'道歉的质量',q:'吵架时说了伤人的话，事后你会：',o:[
+ {t:'具体道歉："我说那句话不对，因为……"，不找补',s:4},
+ {t:'道歉，但会解释"我当时也是被逼急了"',s:3},
+ {t:'"好了好了都是我的错行了吧"',s:1,tag:'敷衍式认错'},
+ {t:'不道歉，等时间冲淡',s:1,tag:'修复搁置'}],
+ a:'高质量道歉=具体行为+承认伤害+不含"但是"。带辩解的道歉和"都是我的错行了吧"都是修复赝品。'},
+{id:603,d:'repair',diff:2,p:'重复冲突的元沟通',q:'同一件事你们已经吵过三次以上，你会：',o:[
+ {t:'意识到这不是"事"的问题，找时间专门谈"我们为什么总为这事吵"',s:4},
+ {t:'换个方式再沟通一次试试',s:3},
+ {t:'懒得再说了，以后这事我自己解决',s:2,tag:'修复放弃'},
+ {t:'认定TA改不了，开始规划退路',s:1,tag:'关系倒计时'}],
+ a:'重复冲突是"元问题"的信号灯。升级到元沟通（谈模式而不是谈事件）是修复的分水岭；放弃或倒计时都是螺旋下坠。'},
+{id:604,d:'repair',diff:2,p:'单方主动后的接应',q:'对象主动来求和，但你气还没消，你会：',o:[
+ {t:'"谢谢你来找我。我气消了一半，还有一半我们谈谈"',s:4},
+ {t:'顺势下台阶，先和好，事以后再说',s:3},
+ {t:'不接茬，继续冷，让TA多哄会儿',s:1,tag:'惩罚性拖延'},
+ {t:'翻个白眼："知道错了？说，错哪了"',s:1,tag:'审讯式受降'}],
+ a:'接住对方的修复尝试（repair attempt）是戈特曼研究里预测关系存亡的最强指标之一。审讯式受降会训练对方不再主动。'},
+{id:605,d:'repair',diff:3,p:'冲突顶点的自控',q:'吵到最凶的时候，你最常做的事：',o:[
+ {t:'主动降速："我们都缓一缓，今晚必须把这事说完"',s:4},
+ {t:'说"我先出去走走"，1小时内回来继续谈',s:4},
+ {t:'说狠话，专挑最痛的说',s:1,tag:'核弹级攻击'},
+ {t:'摔东西/摔门',s:1,tag:'物理升级'}],
+ a:'冲突顶点的行为决定关系的"创伤记忆"存量。狠话和摔门造成的伤害，道歉十次都很难抹平。'},
+{id:606,d:'repair',diff:3,p:'修复信号的识别',q:'冷战期间对象递来台阶（倒水、发表情包、讲笑话），你会：',o:[
+ {t:'接住，借坡下驴，之后找机会正式复盘',s:4},
+ {t:'忍住不笑，但气消了一半，晚上主动和好',s:4},
+ {t:'装作没看见，凭什么发个表情包就算了',s:1,tag:'台阶拒收'},
+ {t:'"现在知道哄我了？晚了"',s:1,tag:'修复惩罚'}],
+ a:'识别并接住"软性修复信号"是高级关系能力。拒收台阶等于训练对方"修复无效"，最终双方都学会沉默。'},
+{id:607,d:'repair',diff:4,p:'战后复盘机制',q:'大吵和好之后，你们会：',o:[
+ {t:'复盘一次：各自的触发点是什么，下次怎么避免',s:4},
+ {t:'和好后感情反而更好，但不复盘',s:3},
+ {t:'绝口不提，怕重揭伤疤',s:2,tag:'复盘恐惧'},
+ {t:'复盘=追责大会，最后变成二次吵架',s:1,tag:'追责式复盘'}],
+ a:'没有复盘的吵架是白吵。健康复盘聚焦"过程和触发点"，追责式复盘聚焦"谁的错"，后者是二次伤害。'},
+{id:608,d:'repair',diff:4,p:'无解矛盾的处理',q:'遇到根本性分歧（如要不要孩子/去谁的城市），你们：',o:[
+ {t:'摊开各自的底层需求，寻找创造性方案',s:4},
+ {t:'明确各自不可让渡的部分，诚实评估兼容性',s:4},
+ {t:'搁置，"以后再说"',s:2,tag:'存在性搁置'},
+ {t:'一方反复妥协，另一方心安理得',s:1,tag:'单向坍缩'}],
+ a:'无解矛盾考验的不是和解能力，是"带着差异继续对话"的能力。单向妥协的关系迟早结构性坍塌。'},
+{id:609,d:'repair',diff:5,p:'修复尝试的主动设计',q:'关于"修复尝试"（吵到一半主动降温的动作），你的做法：',o:[
+ {t:'有默契的暗号（一个词/一个动作），专门用来暂停战争',s:4},
+ {t:'会自然地说"我还在生气，但我不想跟你为敌"',s:4},
+ {t:'没有概念，全凭情绪自然消退',s:3},
+ {t:'我方修复方式是"过当没发生"，第二天照常说话',s:1,tag:'失忆式修复'}],
+ a:'顶级伴侣会人为设计修复暗号——这是把"和好"从运气变成工程。失忆式修复（假装没发生）则让伤口在皮下溃烂。'},
+{id:610,d:'repair',diff:5,p:'冲突后的关系代谢',q:'一次大吵彻底解决之后，你们的关系：',o:[
+ {t:'比吵之前更懂彼此，类似"打了一针疫苗"',s:4},
+ {t:'恢复如常',s:3},
+ {t:'表面和好，但我心里多了层防御',s:2,tag:'防御性结痂'},
+ {t:'每次大吵都在心里扣分，攒到一定程度就离开',s:1,tag:'静默计分'}],
+ a:'冲突代谢能力=关系免疫系统的强度。防御性结痂和静默计分都是"看起来好了"的慢性内伤。'},
+];
+
+/* ---------- 一句话总结（分维度 × 分数段，犀利版） ---------- */
+const SUMMARY = {
+ self:{low:'你的自我价值感全押在这段关系上了',mid:'你正在关系里慢慢弄丢自己',ok:'你守得住自己，但偶尔仍会为爱让渡底线',high:'你先是自己，然后才是谁的恋人'},
+ emotion:{low:'你的情绪开关，握在对方手里',mid:'情绪上头时，理性会先掉线',ok:'你稳得住大部分情绪，翻旧账时会破功',high:'你是这段关系里的情绪稳定器'},
+ attachment:{low:'你把"查岗"当成了安全感',mid:'你想靠近，又怕靠得太近',ok:'你基本是安全型，焦虑偶尔上线',high:'你能安心去爱，也能独自站立'},
+ empathy:{low:'你爱的可能不是TA，是"被需要"的感觉',mid:'你听见了话，但没听见人',ok:'你共情在线，但容易急着给方案',high:'你接得住情绪，也守得住自己'},
+ communication:{low:'你靠"没事"和"随便"维持着表面和平',mid:'你习惯把需求藏着，等对方猜',ok:'你能表达需求，敏感话题还会绕着走',high:'你能把委屈说成需求，而不是指责'},
+ repair:{low:'冷战是你的主场，但从没有人赢过',mid:'你会修复，但总在等对方先伸手',ok:'你能主动破冰，就差复盘这最后一步',high:'你们越吵越懂彼此——这是稀有技能'},
+};
+/* ---------- 下一步建议（分维度 × 分数段，可执行） ---------- */
+const ADVICE = {
+ self:{
+  low:'本周做一件"完全不带对象"的事（见朋友/独自看展），并记录感受。然后读《被讨厌的勇气》第2章"一切烦恼来自人际关系"。',
+  mid:'恢复一项恋爱前的爱好，每周留半天"自我时间"并提前告诉对方——这是需求，不是疏远。',
+  ok:'写下 3 条你"不可让渡的底线"，下次冲突前先读一遍再开口。',
+  high:'读《亲密关系》（罗兰·米勒）第 6 章，把你现在的边界感讲给伴侣听——你的经验对TA是稀缺品。'},
+ emotion:{
+  low:'学"90 秒情绪冲浪"：情绪峰值约 90 秒，回复消息前先等 90 秒。配《情绪急救》（盖伊·温奇）第 1 章。',
+  mid:'给自己定一条铁律：心跳加速时不做任何关系决定、不发任何消息，20 分钟后再说。',
+  ok:'建一个"情绪触发点清单"：记录每次失控的具体场景，两周后你会看到清晰的模式。',
+  high:'读《大脑的情绪生活》（理查德·戴维森），了解你的情绪风格类型，把天赋变成可复制的方法。'},
+ attachment:{
+  low:'读《依恋》（阿米尔·莱文）前 3 章，先弄清自己是焦虑型还是回避型——这是改变的起点。',
+  mid:'当你想"测试TA"或"查岗"时，改用一句直球："我现在有点没安全感，需要你说句好听的。"',
+  ok:'把"TA没回消息"的灾难化解读写下来，再写 2 个更现实的解释，练习认知重评。',
+  high:'你的安全感是稀缺资源：读戈特曼《爱的博弈》，学习帮伴侣共同调节情绪（co-regulation）。'},
+ empathy:{
+  low:'练习一句话："你现在需要我陪着你，还是需要建议？"——先用一周，只陪伴，不给建议。',
+  mid:'读《共情的力量》第 2 章，练习"先复述对方的话再回应"：确认TA感觉被听见。',
+  ok:'下次TA吐槽时，把"要不你这样……"换成"这确实太气人了"，试试晚 10 分钟再给建议。',
+  high:'你已经具备高质量共情，注意共情耗竭：每月给自己安排一天"情绪充电日"。'},
+ communication:{
+  low:'背下万能句式："当____发生时，我感到____，我需要____。可以吗？"，本周至少用一次。',
+  mid:'把一个藏了很久的需求写下来（文字也行），72 小时内交给对方。暗示不算数。',
+  ok:'挑一个一直绕着走的敏感话题，用"软化开场"（以"我"开头、低声量）正式谈一次。',
+  high:'读《非暴力沟通》第 5 章，你已具备基础，进阶练习"在高压对话中只接内容不接攻击"。'},
+ repair:{
+  low:'给自己立规矩：冷战不超过 24 小时。读《幸福的婚姻》（约翰·戈特曼）"修复尝试"那一章。',
+  mid:'下次接住对方的台阶（倒水/表情包/玩笑），接住它，然后当晚正式和好。',
+  ok:'下一次冲突解决后，花 10 分钟复盘：各自的触发点是什么？下次哪个动作可以提前喊停？',
+  high:'和伴侣共创一个"停战暗号"——把你们已经做得不错的事，变成正式装备。'},
+};
+/* ---------- 推荐资源（不给 URL，给可验证的搜索关键词） ---------- */
+const RESOURCES = {
+ self:[{t:'《被讨厌的勇气》',src:'岸见一郎 / 机械工业出版社',type:'书',time:'约 5 小时',why:'课题分离帮你把"我的人生"和"TA的态度"解开',kw:'被讨厌的勇气 岸见一郎 课题分离'},
+      {t:'《亲密关系》',src:'罗兰·米勒 / 人民邮电出版社',type:'书',time:'约 15 小时',why:'亲密关系科学教科书，自我认知章节尤其扎实',kw:'亲密关系 罗兰米勒 第6版'},
+      {t:'自我分化概念（Bowen 家庭系统理论）',src:'心理学经典理论',type:'文章',time:'约 30 分钟',why:'理解"亲密与独立如何共存"的理论框架',kw:'Bowen 自我分化 家庭系统理论'}],
+ emotion:[{t:'《情绪急救》',src:'盖伊·温奇 / 上海社会科学院出版社',type:'书',time:'约 6 小时',why:'把情绪当伤口处理，实操性极强的急救手册',kw:'情绪急救 盖伊温奇'},
+      {t:'《大脑的情绪生活》',src:'理查德·戴维森 / 格致出版社',type:'书',time:'约 8 小时',why:'脑科学视角的情绪风格理论，每种风格都有改善路径',kw:'大脑的情绪生活 戴维森 情绪风格'},
+      {t:'情绪冲浪 / 90秒法则',src:'神经科学科普内容',type:'视频',time:'约 15 分钟',why:'理解情绪的生理半衰期，物理上降低冲动决策',kw:'情绪 90秒 神经科学 冲浪'}],
+ attachment:[{t:'《依恋》（Attached）',src:'阿米尔·莱文 / 江西人民出版社',type:'书',time:'约 7 小时',why:'成人依恋类型自查与改善的奠基之作',kw:'依恋 阿米尔莱文 Attached 成人依恋'},
+      {t:'《爱的博弈》',src:'约翰·戈特曼 / 浙江人民出版社',type:'书',time:'约 9 小时',why:'信任与背叛的科学，依恋损伤的修复路径',kw:'爱的博弈 戈特曼 信任'},
+      {t:'成人依恋访谈（AAI）科普',src:'心理学公众号/期刊',type:'文章',time:'约 40 分钟',why:'更专业地理解依恋内部工作模型',kw:'成人依恋访谈 AAI 心理学'}],
+ empathy:[{t:'《共情的力量》',src:'亚瑟·乔拉米卡利 / 中国致公出版社',type:'书',time:'约 6 小时',why:'区分"共情"与"同情"，避免虚假共情',kw:'共情的力量 乔拉米卡利'},
+      {t:'《非暴力沟通》',src:'马歇尔·卢森堡 / 华夏出版社',type:'书',time:'约 5 小时',why:'倾听与反馈的结构化训练，共情的技术骨架',kw:'非暴力沟通 卢森堡'},
+      {t:'TED: The power of vulnerability',src:'Brené Brown / TED 官方',type:'视频',time:'约 20 分钟',why:'脆弱性是共情的入口，全球播放量最高的演讲之一',kw:'Brené Brown vulnerability TED'}],
+ communication:[{t:'《非暴力沟通》',src:'马歇尔·卢森堡 / 华夏出版社',type:'书',time:'约 5 小时',why:'观察-感受-需要-请求四步法，沟通表达的黄金标准',kw:'非暴力沟通 卢森堡 观察 感受 需要'},
+      {t:'软化开场（Soft Startup）',src:'戈特曼研究所',type:'文章',time:'约 20 分钟',why:'敏感话题怎么开口，决定对话的生死',kw:'戈特曼 软化开场 soft startup'},
+      {t:'《关键对话》',src:'科里·帕特森 / 机械工业出版社',type:'书',time:'约 7 小时',why:'高风险话题的对话技巧，进阶装备',kw:'关键对话 高风险对话 技巧'}],
+ repair:[{t:'《幸福的婚姻》',src:'约翰·戈特曼 / 浙江人民出版社',type:'书',time:'约 8 小时',why:'修复尝试（repair attempt）章节是冲突修复的圣经',kw:'幸福的婚姻 戈特曼 修复尝试'},
+      {t:'戈特曼"四骑士"理论',src:'戈特曼研究所',type:'视频/文章',time:'约 30 分钟',why:'识别指责、防御、蔑视、筑墙四大关系杀手',kw:'戈特曼 四骑士 four horsemen'},
+      {t:'《爱的博弈》',src:'约翰·戈特曼 / 浙江人民出版社',type:'书',time:'约 9 小时',why:'冲突后的信任修复与"情绪银行账户"概念',kw:'爱的博弈 戈特曼 情绪银行'}],
+};
+/* ---------- 等级（刻度按 3题/维度 × 0.7/0.3 平滑公式的实际分值区间 36-77 校准） ---------- */
+function levelOf(total){
+  if(total>=75) return {name:'天选恋人', line:'各项在线，请务必把方法分享给人类'};
+  if(total>=60) return {name:'高潜力股', line:'底子很好，一两个短板补上就是顶级选手'};
+  if(total>=45) return {name:'间歇性上头', line:'清醒的时候很清醒，上头的时候没眼看'};
+  return {name:'恋爱脑待机中', line:'好消息：提升空间巨大，而且都有解'};
+}
+
+/* =====================================================
+   应用状态与持久化
+   ===================================================== */
+const LS = {progress:'lovelab_progress', snapshots:'lovelab_snapshots', count:'lovelab_count'};
+const BASE_COUNT = 2847; // 课程做法：演示期先造一个基数
+function loadJSON(k, fb){ try{ const v = localStorage.getItem(k); return v? JSON.parse(v): fb; }catch(e){ return fb; } }
+function save(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+function getSnapshots(){ return loadJSON(LS.snapshots, []); }
+function getCount(){ return BASE_COUNT + (loadJSON(LS.count,0)); }
+
+let session = null; // {answers:[{qid, chosen, skipped, contrib, correct, dim}], perDim:{dim:{score, count, correct, diffs}}, dimOrder:[], cur:null, done:false}
+
+/* =====================================================
+   简化版 CAT（课程第4节算法）
+   每维度初始难度3；答对+1(封顶5)、答错-1(封底1)；
+   每维度考3题，共18题；能力分 = 旧分×0.7 + 本题贡献×0.3
+   复测优先抽"从未答过的题"
+   ===================================================== */
+function answeredQids(){
+  const s = new Set();
+  getSnapshots().forEach(snap => (snap.detail||[]).forEach(a => s.add(a.qid)));
+  return s;
+}
+function initSession(isRetest){
+  const perDim = {};
+  DIMS.forEach(d => perDim[d.id] = {score:50, count:0, correct:0, diff:3, history:[]});
+  session = {
+    isRetest: !!isRetest,
+    answers: [], perDim, dimQueue: DIMS.map(d=>d.id).concat(DIMS.map(d=>d.id)).concat(DIMS.map(d=>d.id)), // 每维度3次机会的轮询
+    startedAt: Date.now()
+  };
+}
+function bankCheck(){
+  // 课程第6节：题库为空/某维度题少于3道时禁止测评
+  const bad = DIMS.filter(d => QUESTIONS.filter(q=>q.d===d.id).length < 3);
+  return bad.length===0 ? null : bad.map(d=>d.name).join('、');
+}
+function pickNext(){
+  const perDim = session.perDim;
+  const used = new Set(session.answers.map(a=>a.qid));
+  const globalAnswered = answeredQids();
+  // 找下一个还没考够3题的维度
+  for(let i=0;i<session.dimQueue.length;i++){
+    const dim = session.dimQueue[i];
+    if(perDim[dim].count >= 3) continue;
+    // 该维度出题
+    const pool = QUESTIONS.filter(q=>q.d===dim && !used.has(q.id));
+    let cand = pool.filter(q=>q.diff===perDim[dim].diff && (session.isRetest? !globalAnswered.has(q.id) : true));
+    if(!cand.length) cand = pool.filter(q=>q.diff===perDim[dim].diff);
+    if(!cand.length){ // 难度档空了，就近找
+      const alts = pool.slice().sort((a,b)=>Math.abs(a.diff-perDim[dim].diff)-Math.abs(b.diff-perDim[dim].diff));
+      cand = alts.slice(0,1);
+    }
+    if(!cand.length) return null; // 该维度题用尽（理论上不会，题库每维10题）
+    return cand[Math.floor(Math.random()*cand.length)];
+  }
+  return null;
+}
+function contribution(optionScore, diff){
+  // 课程打分表的情景题改编：选项质量 × 难度
+  if(optionScore>=4) return diff>=4?95: (diff===3?75:55);
+  if(optionScore===3) return 65;
+  if(optionScore===2) return diff>=4?50:45;
+  return diff>=4?55: (diff===3?40:25); // 答错高难度不重扣（鼓励探索）
+}
+function recordAnswer(q, chosenIdx){ // chosenIdx = -1 表示跳过
+  const per = session.perDim[q.d];
+  const opt = chosenIdx>=0 ? q.o[chosenIdx] : null;
+  const correct = opt ? opt.s>=3 : false;
+  const contrib = opt ? contribution(opt.s, q.diff) : 30; // 跳过按低贡献计
+  per.score = Math.round(per.score*0.7 + contrib*0.3);
+  per.count++; per.history.push({qid:q.id, diff:q.diff, correct, contrib});
+  if(correct){ per.correct++; per.diff = Math.min(5, per.diff+1); }
+  else { per.diff = Math.max(1, per.diff-1); }
+  session.answers.push({qid:q.id, dim:q.d, chosen:chosenIdx, skipped:chosenIdx<0, correct, contrib});
+  save(LS.progress, session); // 课程第6节：每答一题立刻持久化
+  // console.log(`[CAT] 第${session.answers.length}题 维度=${q.d} 难度=${q.diff} ${correct?'答对':'答错'} 贡献=${contrib} 维度分=${per.score}`);
+}
+function totalScore(){
+  const scores = DIMS.map(d=>session.perDim[d.id].score);
+  return Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+}
+function buildSnapshot(){
+  return {
+    date: Date.now(),
+    total: totalScore(),
+    dims: DIMS.map(d=>({id:d.id, name:d.name, score:session.perDim[d.id].score})),
+    answered: session.answers.length,
+    correct: session.answers.filter(a=>a.correct).length,
+    summaries: Object.fromEntries(DIMS.map(d=>[d.id, diagnosisFor(d.id).summary])),
+    detail: session.answers.map(a=>({qid:a.qid, chosen:a.chosen, correct:a.correct, dim:a.dim}))
+  };
+}
+
+/* =====================================================
+   诊断生成（规则式 + 强制证据引用，课程第5节方法论）
+   ===================================================== */
+function diagnosisFor(dimId){
+  const dim = DIMMAP[dimId];
+  const score = session.perDim[dimId].score;
+  const band = score<45?'low': score<58?'mid': score<70?'ok':'high';
+  const answers = session.answers.filter(a=>a.dim===dimId);
+  const wrongs = answers.filter(a=>!a.correct || a.skipped);
+  const rights = answers.filter(a=>a.correct);
+  const parts = {summary: SUMMARY[dimId][band], weak:[], advice:ADVICE[dimId][band], encourage:''};
+
+  wrongs.forEach(a=>{
+    const q = QUESTIONS.find(x=>x.id===a.qid);
+    const no = session.answers.indexOf(a)+1;
+    let tagText = a.skipped? '跳过了这道题' : (q.o[a.chosen] && q.o[a.chosen].tag ? '选择了「'+q.o[a.chosen].tag+'」' : '选择了较低质量的应对');
+    parts.weak.push({no, point:q.p, tagText, why:q.a});
+  });
+  if(score>=75) parts.weak = [];
+  if(rights.length){
+    const cites = rights.map(a=>'第'+(session.answers.indexOf(a)+1)+'题（'+QUESTIONS.find(x=>x.id===a.qid).p+'）').join('、');
+    parts.encourage = cites + ' 你都选择了更成熟的应对——这不是运气，是稳定的能力。';
+  }
+  if(answers.length<3) parts.insufficient = true; // 课程第6节：数据不足不强诊断
+  return parts;
+}
+
+/* =====================================================
+   雷达图（SVG，支持双快照叠加）
+   ===================================================== */
+function radarSVG(scores, prevScores){
+  // scores: [{id,name,score}]；prevScores 可选
+  const size=340, cx=170, cy=175, R=118, N=DIMS.length;
+  function pts(list){
+    return list.map((s,i)=>{
+      const ang = -Math.PI/2 + i*2*Math.PI/N;
+      const r = R*Math.max(3,Math.min(100,s.score))/100;
+      return (cx+r*Math.cos(ang)).toFixed(1)+','+(cy+r*Math.sin(ang)).toFixed(1);
+    }).join(' ');
+  }
+  let svg = `<svg viewBox="0 0 ${size} ${size}" style="width:100%;max-width:${size}px;display:block;margin:0 auto">`;
+  for(let lv=1; lv<=5; lv++){
+    const r = R*lv/5;
+    const p = DIMS.map((d,i)=>{
+      const ang = -Math.PI/2 + i*2*Math.PI/N;
+      return (cx+r*Math.cos(ang)).toFixed(1)+','+(cy+r*Math.sin(ang)).toFixed(1);
+    }).join(' ');
+    svg += `<polygon points="${p}" fill="none" stroke="#eee4da" stroke-width="1"/>`;
+  }
+  DIMS.forEach((d,i)=>{
+    const ang = -Math.PI/2 + i*2*Math.PI/N;
+    svg += `<line x1="${cx}" y1="${cy}" x2="${(cx+R*Math.cos(ang)).toFixed(1)}" y2="${(cy+R*Math.sin(ang)).toFixed(1)}" stroke="#eee4da"/>`;
+    const lx = cx+(R+26)*Math.cos(ang), ly = cy+(R+26)*Math.sin(ang);
+    svg += `<text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="middle" font-size="11.5" fill="#8a807a">${d.name}</text>`;
+  });
+  if(prevScores){
+    svg += `<polygon points="${pts(prevScores.map(s=>({score:s.score})))}" fill="none" stroke="#b9aca2" stroke-width="1.6" stroke-dasharray="5,4"/>`;
+  }
+  DIMS.forEach((d,i)=>{
+    const s = scores[i];
+    const ang = -Math.PI/2 + i*2*Math.PI/N;
+    const r = R*Math.max(3,Math.min(100,s.score))/100;
+    const px = cx+r*Math.cos(ang), py = cy+r*Math.sin(ang);
+    svg += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="3.4" fill="${d.color}"/>`;
+    svg += `<text x="${(px+(px>cx?8:-8)).toFixed(1)}" y="${(py+(py>cy?14:-6)).toFixed(1)}" text-anchor="middle" font-size="12" font-weight="bold" fill="${s.score>=70?'#4e9a6f': s.score<50?'#d98243':'#3d3733'}">${s.score}</text>`;
+  });
+  svg += `<polygon points="${pts(scores)}" fill="rgba(212,105,111,0.25)" stroke="#d4696f" stroke-width="2"/></svg>`;
+  return svg;
+}
+
+/* =====================================================
+   渲染
+   ===================================================== */
+const app = document.getElementById('app');
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function toast(msg){
+  const t = document.createElement('div'); t.className='toast'; t.textContent=msg;
+  document.body.appendChild(t); setTimeout(()=>t.remove(), 2200);
+}
+
+/* ---------- 落地页 ---------- */
+function renderLanding(){
+  const snaps = getSnapshots();
+  const unfin = loadJSON(LS.progress, null);
+  let resumeCard = '';
+  if(unfin && !unfin.done && unfin.answers && unfin.answers.length>0){
+    resumeCard = `<div class="card" style="margin-top:16px;border-left:4px solid var(--primary)">
+      <b>你有一次未完成的测评</b>（已答 ${unfin.answers.length} 题）
+      <div style="margin-top:12px;display:flex;gap:10px">
+        <button class="btn ghost" style="padding:10px 22px;font-size:15px" onclick="resumeQuiz()">继续作答</button>
+        <button class="btn weak" style="padding:10px 22px;font-size:15px" onclick="startNew()">放弃重来</button>
+      </div></div>`;
+  }
+  let myCard = '';
+  if(snaps.length){
+    const last = snaps[snaps.length-1];
+    const days = Math.floor((Date.now()-last.date)/86400000);
+    let retestBtn = `<button class="btn" onclick="startQuiz(true)" style="padding:12px 30px;font-size:15px">立即复测</button>`;
+    let hint = '';
+    if(days<3) { retestBtn = `<button class="btn weak" style="padding:12px 30px;font-size:15px" onclick="startQuiz(true)">立即复测</button>`; hint='建议再过几天复测，让改变有时间发生'; }
+    else if(days>=14) hint = `已经 ${days} 天没测了，回来看看自己的水平吧`;
+    else hint = `距离上次测评 ${days} 天，来复测一次看看进步`;
+    myCard = `<div class="card" style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <div><b>我的最近成绩</b><div class="muted">${new Date(last.date).toLocaleDateString()} · 总分 ${last.total} · ${esc(levelOf(last.total).name)}</div></div>
+        <div>${retestBtn}</div>
+      </div>
+      <div class="small muted" style="margin-top:6px">${esc(hint)}</div>
+      ${snaps.length>=2?`<div class="small" style="margin-top:8px"><a href="javascript:void(0)" onclick="goResult(${snaps.length-1})">查看上次完整报告 →</a></div>`:''}
+    </div>`;
+  }
+  app.innerHTML = `
+  <div class="hero">
+    <div class="small" style="letter-spacing:.3em;color:var(--primary);margin-bottom:10px">LOVE · LAB</div>
+    <h1>你到底是恋爱脑，<br>还是恋爱高手？</h1>
+    <p class="muted" style="margin-top:14px;font-size:15px">18 道真实情景题 · 6 个硬核维度<br>基于依恋理论 × 情绪脑科学</p>
+    <div style="margin-top:30px"><button class="btn" onclick="renderIntro()">开始测评</button></div>
+    <p class="small muted" style="margin-top:18px">已有 ${getCount().toLocaleString()} 人完成测评</p>
+  </div>
+  ${resumeCard}${myCard}
+  <div class="card" style="margin-top:16px;background:transparent;box-shadow:none">
+    <div class="small muted center">本测评为娱乐向自测工具，基于心理学研究设计，不能替代专业心理咨询。</div>
+  </div>`;
+}
+
+/* ---------- 介绍页 ---------- */
+function renderIntro(){
+  const bad = bankCheck();
+  app.innerHTML = `
+  <div class="card" style="margin-top:30px">
+    <h2 style="font-size:22px">这场测评考什么</h2>
+    <p class="muted" style="margin:8px 0 4px">6 个维度来自依恋理论与情绪研究，全部是真实恋爱情景，没有标准答案式的说教。</p>
+    ${DIMS.map(d=>`<div style="display:flex;gap:10px;margin-top:14px;align-items:flex-start">
+      <span class="dim-chip" style="background:${d.color};margin-top:3px;white-space:nowrap">${d.name}</span>
+      <span class="small muted" style="padding-top:2px">${esc(d.desc)}</span></div>`).join('')}
+    <div class="kv" style="margin-top:18px"><span>题目数量</span><b>18 题（自适应出题，每维度 3 题）</b></div>
+    <div class="kv"><span>预计用时</span><b>约 5 分钟</b></div>
+    <div class="kv"><span>题目形式</span><b>情景选择题，选最接近你真实反应的</b></div>
+    <div style="margin-top:22px">
+      ${bad? `<div class="weakbox">题库未就绪（${esc(bad)}维度题量不足），请联系管理员。</div>`
+           : `<button class="btn full" onclick="startQuiz(false)">开始答题</button>`}
+    </div>
+    <p class="small muted center" style="margin-top:14px">凭第一反应选，别选"正确答案"——这里只有真实的你。</p>
+  </div>`;
+}
+
+/* ---------- 答题页 ---------- */
+let currentQ = null, chosenIdx = null, submitting = false;
+function startQuiz(isRetest){
+  initSession(isRetest);
+  localStorage.removeItem(LS.progress);
+  nextQuestion();
+}
+function resumeQuiz(){
+  const unfin = loadJSON(LS.progress, null);
+  if(!unfin){ startQuiz(false); return; }
+  session = unfin;
+  nextQuestion();
+}
+function startNew(){ localStorage.removeItem(LS.progress); session=null; renderIntro(); }
+function nextQuestion(){
+  chosenIdx = null; submitting = false;
+  currentQ = pickNext();
+  if(!currentQ){ finishQuiz(); return; }
+  const dim = DIMMAP[currentQ.d];
+  const no = session.answers.length+1;
+  app.innerHTML = `
+  <div style="margin-top:20px">
+    <div class="progress-wrap"><div class="progress-bar" style="width:${(no-1)/18*100}%"></div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span class="small muted">第 ${no} / 18 题</span>
+      <span class="dim-chip" style="background:${dim.color}">${dim.name}</span>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="serif" style="font-size:19px;line-height:1.7;min-height:64px">${esc(currentQ.q)}</div>
+      <div id="opts">${currentQ.o.map((o,i)=>`<button class="opt" onclick="choose(${i})">${esc(o.t)}</button>`).join('')}</div>
+      <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center">
+        <a href="javascript:void(0)" class="small muted" onclick="skipQ()">跳过本题</a>
+        <button class="btn" id="nextBtn" disabled onclick="submitQ()">下一题</button>
+      </div>
+    </div>
+  </div>`;
+  window.scrollTo(0,0);
+}
+function choose(i){
+  if(submitting) return;
+  chosenIdx = i;
+  document.querySelectorAll('.opt').forEach((el,idx)=>el.classList.toggle('sel', idx===i));
+  document.getElementById('nextBtn').disabled = false;
+}
+function skipQ(){
+  if(submitting) return;
+  submitting = true;
+  recordAnswer(currentQ, -1);
+  nextQuestion();
+}
+function submitQ(){
+  if(chosenIdx===null || submitting) return;
+  submitting = true; // 课程第6节：防重复提交
+  const btn = document.getElementById('nextBtn');
+  if(btn){ btn.disabled = true; btn.textContent = '下一题…'; }
+  recordAnswer(currentQ, chosenIdx);
+  setTimeout(nextQuestion, 120);
+}
+
+/* ---------- 结果页 ---------- */
+function finishQuiz(){
+  if(!session || session.answers.length===0){ renderLanding(); return; }
+  const total = totalScore();
+  const lv = levelOf(total);
+  const scores = DIMS.map(d=>({id:d.id,name:d.name,score:session.perDim[d.id].score}));
+  const weakest = scores.slice().sort((a,b)=>a.score-b.score)[0];
+  // 保存快照
+  const snap = buildSnapshot();
+  const snaps = getSnapshots(); snaps.push(snap); save(LS.snapshots, snaps);
+  save(LS.count, loadJSON(LS.count,0)+1);
+  session.done = true; localStorage.removeItem(LS.progress);
+  renderResult(snaps.length-1);
+}
+function goResult(idx){ const snaps=getSnapshots(); if(!snaps[idx]){renderLanding();return;} renderResult(idx); }
+
+function renderResult(idx){
+  const snaps = getSnapshots();
+  const snap = snaps[idx];
+  if(!snap){ renderLanding(); return; }
+  // 若正在查看历史快照，需要用 session 的 perDim 数据做诊断；历史报告只展示分数
+  const isCurrent = session && session.done && snaps.length && snap.date===snaps[snaps.length-1].date && session.answers.length===snap.answered;
+  const lv = levelOf(snap.total);
+  const prev = idx>0 ? snaps[idx-1] : null;
+  const weakest = snap.dims.slice().sort((a,b)=>a.score-b.score)[0];
+
+  // 对比反馈（课程第6节：提升/突破/下降/持平 四种话术）
+  let compareBlock = '';
+  if(prev){
+    const dt = Math.round((snap.date-prev.date)/86400000);
+    const dTotal = snap.total - prev.total;
+    const deltas = snap.dims.map((d,i)=>({name:d.name, d:d.score-prev.dims[i].score}));
+    const best = deltas.slice().sort((a,b)=>b.d-a.d)[0];
+    const worstUp = deltas.slice().sort((a,b)=>a.d-b.d)[0];
+    let feedback='';
+    if(dTotal>=10) feedback = `<div class="celebrate">你在 ${dt} 天里提升了 ${dTotal} 分！</div>`;
+    else if(best.d>=15) feedback = `<div class="celebrate">你的【${esc(best.name)}】维度突破了！单项提升 ${best.d} 分</div>`;
+    else if(dTotal<=-5) feedback = `<div class="constructive">今天的表现可能不在最佳状态。我们一起回顾这次答错的题，看看是哪里出了问题。</div>`;
+    else feedback = `<div class="constructive" style="background:#f4ede6;color:#8a807a">本次表现稳定。建议针对【${esc(worstUp.name)}】做专项练习，下次会有突破。</div>`;
+    compareBlock = `
+    <div class="card" style="margin-top:18px">
+      <h3 style="font-size:18px">复测对比</h3>
+      <div class="radar-legend"><span>— 本次（实线）</span><span>-- 上次（虚线）</span></div>
+      ${radarSVG(snap.dims, prev.dims)}
+      <div class="kv"><span>总分变化</span><b style="color:${dTotal>=0?'var(--green)':'var(--orange)'}">上次 ${prev.total} → 本次 ${snap.total}（${dTotal>=0?'+':''}${dTotal}）</b></div>
+      <div class="kv"><span>提升最大</span><b style="color:var(--green)">${esc(best.name)} ${best.d>=0?'+':''}${best.d} 分</b></div>
+      <div class="kv"><span>仍需加强</span><b style="color:var(--orange)">${esc(worstUp.name)}${worstUp.d<0?'（退步中）':'（停滞）'}</b></div>
+      ${feedback}
+    </div>`;
+  }
+
+  // 诊断卡片
+  let diagBlock = '';
+  if(isCurrent){
+    diagBlock = `<div class="card" style="margin-top:18px"><h3 style="font-size:18px;margin-bottom:4px">维度诊断</h3>
+      <p class="small muted">点击维度行展开诊断；点击分数查看计分依据。</p>
+      ${DIMS.map((d,i)=>{
+        const s = snap.dims[i].score;
+        const dg = diagnosisFor(d.id);
+        const colorCls = s>=70?'tag-b': s<50?'tag-o':'';
+        let inner = '';
+        if(dg.insufficient){
+          inner = `<div class="weakbox">这个维度的答题数据不足以生成针对性诊断，建议做一次专项测评。</div>`;
+        }else{
+          inner = `
+          <div class="serif" style="font-size:16.5px;color:var(--primary);font-weight:700;margin-top:10px">${esc(dg.summary)}</div>
+          ${dg.weak.length?`<div class="small muted" style="margin-top:12px;font-weight:700">具体问题在哪：</div>`:''}
+          ${dg.weak.slice(0,3).map(w=>`<div class="weakbox"><b>第 ${w.no} 题 · ${esc(w.point)}</b>：你${esc(w.tagText)}。<br><span class="muted">${esc(w.why)}</span></div>`).join('')}
+          ${dg.weak.length?`<div class="small muted" style="margin-top:10px">推测原因：这类选择的背后，往往是「${esc(d.name)}」维度对应的行为模式还没被你意识到——它比你以为的更自动化。</div>`:''}
+          <div class="next-step">→ ${esc(dg.advice)}</div>
+          <div style="margin-top:10px"><button class="search-btn" onclick="toggleRes('${d.id}', this)">查看推荐资源 ▾</button>
+            <div id="res-${d.id}" style="display:none">
+              ${RESOURCES[d.id].map(r=>`<div class="res-item">
+                <b>${esc(r.t)}</b> <span class="badge">${esc(r.type)}</span>
+                <div class="small muted" style="margin-top:4px">${esc(r.src)} · 约 ${esc(r.time)}</div>
+                <div class="small" style="margin-top:4px;color:#8a807a">${esc(r.why)}</div>
+                <button class="search-btn" onclick="searchFor('${esc(r.kw).replace(/'/g,'')}')">用这个关键词搜索 →</button>
+              </div>`).join('')}
+            </div>
+          </div>
+          ${dg.encourage?`<div class="encourage">${esc(dg.encourage)}</div>`:''}`;
+        }
+        return `<div class="dimrow">
+          <div class="head" onclick="toggleDiag('dg-${d.id}', this)">
+            <div><span class="dimdot" style="background:${d.color}"></span><b>${d.name}</b><span class="badge ${colorCls}">${s>=80?'强项': s<60?'待补':'中等'}</span></div>
+            <div><b style="font-size:20px;color:${s>=70?'var(--green)': s<50?'var(--orange)':'var(--ink)'};cursor:pointer" onclick="event.stopPropagation();explainDim('${d.id}')">${s} 分</b><span class="muted"> ▾</span></div>
+          </div>
+          <div id="dg-${d.id}" style="display:${d.id===weakest.id?'block':'none'};margin-top:8px">${inner}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }else{
+    diagBlock = `<div class="card" style="margin-top:18px"><p class="muted small">这是历史报告，个性化诊断仅当次测评后可见。${isCurrent?'':'<a href="javascript:void(0)" onclick="startQuiz(true)">做一次新的测评 →</a>'}</p></div>`;
+  }
+
+  app.innerHTML = `
+  <div style="margin-top:24px">
+    <div class="card center">
+      <div class="small muted">你的恋爱能力综合分</div>
+      <div class="score-big" style="color:${snap.total>=70?'var(--green)':snap.total>=50?'var(--primary)':'var(--orange)'}">${snap.total}</div>
+      <div class="serif" style="font-size:20px;font-weight:700">${esc(lv.name)}</div>
+      <div class="muted" style="margin-top:4px">${esc(lv.line)}</div>
+      <div class="small muted" style="margin-top:8px">共答 ${snap.answered} 题 · 稳定应对 ${snap.correct} 题 · ${new Date(snap.date).toLocaleString()}</div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3 style="font-size:18px">六维雷达图</h3>
+      ${radarSVG(snap.dims)}
+      <p class="small muted center">点击各维度分数可查看计分依据（可解释性）</p>
+    </div>
+    ${compareBlock}
+    ${diagBlock}
+    <div class="card" style="margin-top:18px">
+      <h3 style="font-size:18px">把结果发出去</h3>
+      <p class="small muted" style="margin:6px 0 12px">生成一份可以直接发小红书/朋友圈的文案：</p>
+      <button class="btn ghost full" onclick="shareCopy()">生成分享文案并复制</button>
+      <div id="shareBox" style="display:none;margin-top:12px;background:#f8f3ee;border-radius:10px;padding:14px;font-size:14px;white-space:pre-wrap" class="small"></div>
+    </div>
+    <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn" style="padding:12px 28px;font-size:15px" onclick="startQuiz(true)">再测一次（复测）</button>
+      <button class="btn ghost" style="padding:12px 28px;font-size:15px" onclick="renderLanding()">回到首页</button>
+    </div>
+    <p class="small muted center" style="margin-top:16px">复测会优先抽你没做过的新题，分数变化更真实。</p>
+  </div>`;
+  window.scrollTo(0,0);
+}
+function toggleDiag(id){ const el=document.getElementById(id); el.style.display = el.style.display==='none'?'block':'none'; }
+function toggleRes(dimId){ const el=document.getElementById('res-'+dimId); el.style.display = el.style.display==='none'?'block':'none'; }
+function searchFor(kw){ window.open('https://www.baidu.com/s?wd='+encodeURIComponent(kw), '_blank'); }
+function explainDim(dimId){
+  if(!session || !session.done){ return; }
+  const per = session.perDim[dimId];
+  const hist = per.history||[];
+  const hi = hist.filter(h=>h.diff>=4).length;
+  const correct = per.correct, wrong = per.count-per.correct;
+  showModal(`
+    <h3 style="font-size:18px">${DIMMAP[dimId].name} · 计分依据</h3>
+    <div style="margin-top:12px">
+      <div class="kv"><span>本维度答题数</span><b>${per.count} 道（其中高难度 ${hi} 道）</b></div>
+      <div class="kv"><span>稳定应对</span><b style="color:var(--green)">${correct} 道</b></div>
+      <div class="kv"><span>失分/跳过</span><b style="color:var(--orange)">${wrong} 道</b></div>
+      <div class="kv"><span>计分方式</span><b>初始 50 分，每题更新：新分 = 旧分×0.7 + 本题贡献×0.3</b></div>
+      <div class="kv"><span>当前分数</span><b style="font-size:18px">${per.score}</b></div>
+    </div>
+    <p class="small muted" style="margin-top:12px">贡献分由「选项质量 × 题目难度」决定：答对高难题贡献约 95，跳过贡献 30。答错高难度题不会被重扣——那是探索，不是失败。</p>
+    <div style="margin-top:14px;text-align:right"><button class="btn ghost" style="padding:8px 20px;font-size:14px" onclick="closeModal()">关闭</button></div>
+  `);
+}
+let modalEl = null;
+function showModal(html){
+  closeModal();
+  modalEl = document.createElement('div'); modalEl.className='modal-mask';
+  modalEl.innerHTML = `<div class="modal">${html}</div>`;
+  modalEl.addEventListener('click', e=>{ if(e.target===modalEl) closeModal(); });
+  document.body.appendChild(modalEl);
+}
+function closeModal(){ if(modalEl){ modalEl.remove(); modalEl=null; } }
+
+/* ---------- 分享文案（自媒体传播钩子） ---------- */
+function shareCopy(){
+  const snaps = getSnapshots();
+  const snap = snaps[snaps.length-1];
+  const sorted = snap.dims.slice().sort((a,b)=>b.score-a.score);
+  const strongest = sorted[0], weakest = sorted[sorted.length-1];
+  const lv = levelOf(snap.total);
+  const dg = snap.summaries ? {summary: snap.summaries[weakest.id]} : null;
+  const hook = dg ? dg.summary : '有些维度，只有测了才知道自己在裸泳';
+  const text =
+`【恋爱能力测评】我拿了 ${snap.total} 分 · ${lv.name}
+
+最强项：${strongest.name} ${strongest.score} 分
+隐藏短板：${weakest.name} ${weakest.score} 分
+最扎心的一句诊断：「${hook}」
+
+18 道真实恋爱情景题，5 分钟出六维雷达图，
+基于依恋理论 × 情绪脑科学设计。
+
+→ 你能拿几分？评论区报分，看看谁是恋爱脑重灾区`;
+
+  const box = document.getElementById('shareBox');
+  box.style.display='block'; box.textContent = text;
+  copyText(text);
+}
+function copyText(text){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>toast('已复制，去粘贴发布吧')).catch(()=>fallbackCopy(text));
+  } else fallbackCopy(text);
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea'); ta.value = text;
+  ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); toast('已复制，去粘贴发布吧'); }catch(e){ toast('复制失败，请长按文案手动复制'); }
+  ta.remove();
+}
+
+/* ---------- 启动 ---------- */
+renderLanding();
+</script>
+</body>
+</html>
