@@ -56,6 +56,28 @@ button{font-family:inherit;cursor:pointer;border:none}
 @media (max-width:480px){ .hero h1{font-size:26px} .score-big{font-size:46px} #app{padding:16px 14px 50px} }
 .kv{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px dashed var(--line)}
 .kv:last-child{border-bottom:none}
+/* ---- 新增：文字报告/规划/行动计划样式 ---- */
+.score-ring{position:relative;width:160px;height:160px;margin:0 auto}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-ring .pct b{font-size:42px;font-family:Georgia,serif;line-height:1}
+.score-ring .pct span{font-size:12px;color:var(--ink2);margin-top:4px}
+.love-type-card{background:linear-gradient(135deg,var(--primary-soft) 0%,#fff 60%);border:1px solid var(--line)}
+.type-name{font-size:22px;font-weight:700;color:var(--primary);margin-top:4px}
+.type-tags{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.type-tag{font-size:12px;padding:4px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--ink)}
+.section-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;margin:18px 0 8px}
+.section-title:first-child{margin-top:6px}
+.comp-item{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
+.comp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.comp-bar{height:8px;background:#f0e6df;border-radius:4px;overflow:hidden}
+.comp-bar>div{height:100%;background:var(--primary);border-radius:4px}
+.partner-item{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fffdf9;margin-top:12px}
+.partner-match{font-size:12px;color:var(--primary);font-weight:700}
+.plan-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:12px}
+.plan-head{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;margin-bottom:10px}
+.plan-item{display:flex;gap:10px;align-items:flex-start;margin-top:8px;font-size:14px}
+.plan-item .chk{width:18px;height:18px;border-radius:50%;border:2px solid var(--green);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:2px}
 </style>
 </head>
 <body>
@@ -516,6 +538,189 @@ const RESOURCES = {
       {t:'戈特曼"四骑士"理论',src:'戈特曼研究所',type:'视频/文章',time:'约 30 分钟',why:'识别指责、防御、蔑视、筑墙四大关系杀手',kw:'戈特曼 四骑士 four horsemen'},
       {t:'《爱的博弈》',src:'约翰·戈特曼 / 浙江人民出版社',type:'书',time:'约 9 小时',why:'冲突后的信任修复与"情绪银行账户"概念',kw:'爱的博弈 戈特曼 情绪银行'}],
 };
+/* ---------- 新增：恋爱风格类型库（按 strongest 2 维度组合） ---------- */
+const LOVETYPES = {
+  'self+emotion':{
+    name:'理性清醒型',line:'你先是自己，然后才是恋人',
+    icon:'🧭',
+    read:'你擅长在关系中保持独立和情绪稳定，不容易被一时上头牵着走。对你来说，恋爱是生活的加分项，不是全部。',
+    combo:'独立内核 + 情绪稳定',
+    challenge:'你可能在亲密关系中显得"不够黏"，伴侣有时会怀疑你是不是没那么投入。'
+  },
+  'empathy+communication':{
+    name:'温柔沟通型',line:'你是关系里的翻译官，能把情绪翻译成需求',
+    icon:'💬',
+    read:'你天生擅长接住对方的情绪，并且能用对方听得懂的方式表达。你让关系里的委屈和误会很难过夜。',
+    combo:'共情在线 + 表达清晰',
+    challenge:'你容易过度承担对方的情绪，偶尔会为了"维持和谐"而压抑自己的需求。'
+  },
+  'attachment+repair':{
+    name:'安全修复型',line:'你有安全感，也有把吵架变成疫苗的能力',
+    icon:'🛡️',
+    read:'你的依恋底色相对安全，遇到冲突不会逃避也不会死磕。你让关系有底气去经历风雨。',
+    combo:'依恋安全 + 修复主动',
+    challenge:'你的"稳"有时会被伴侣误读为"无所谓"，需要偶尔表达你的在乎。'
+  },
+  'communication+repair':{
+    name:'协商解决型',line:'你敢谈难的话题，也能把吵完的烂摊子收拾好',
+    icon:'🔧',
+    read:'你具备把冲突变成升级机会的稀有技能：既能开口谈问题，又能在战后修复关系。',
+    combo:'沟通直接 + 修复有力',
+    challenge:'你太擅长解决问题，可能跳过情绪安抚这一步，让对方觉得"你只想讲道理"。'
+  },
+  'self+empathy':{
+    name:'独立共情型',line:'你守得住自己，也看得见别人',
+    icon:'🌿',
+    read:'你不会因为恋爱就丢掉自我，同时又能理解伴侣的处境。这种"有边界的温柔"非常稀缺。',
+    combo:'自我清晰 + 共情有界',
+    challenge:'你偶尔会让伴侣觉得"你好像不需要我"，适度示弱其实是给关系升温。'
+  },
+  'emotion+repair':{
+    name:'情绪工匠型',line:'你既能稳住自己的情绪，也能修好关系里的裂痕',
+    icon:'🎐',
+    read:'你不会让情绪泛滥成灾，也不会让冷战无限拉长。关系里的风波，到你这里往往能被接住。',
+    combo:'情绪调节 + 冲突修复',
+    challenge:'你习惯自己处理情绪，可能会在真正需要陪伴时选择独处。'
+  },
+  'attachment+communication':{
+    name:'安全表达型',line:'你敢直接说爱，也敢直接谈需求',
+    icon:'🔑',
+    read:'你有表达爱和表达不满的安全感，不会让伴侣长期猜你的心思。关系里的透明度很高。',
+    combo:'依恋安全 + 沟通坦诚',
+    challenge:'你表达直接，但遇到特别敏感的话题时，可能忽略对方的接受节奏。'
+  },
+  'self+repair':{
+    name:'边界修复型',line:'你守住自己的阵地，也主动修补城墙',
+    icon:'🏰',
+    read:'你清楚自己要什么，也不会因为一次冲突就放弃关系。你是关系里既有原则又有弹性的人。',
+    combo:'自我坚定 + 修复主动',
+    challenge:'你的边界感强，伴侣靠近时需要更多耐心和尊重。'
+  },
+  'emotion+empathy':{
+    name:'情绪共情型',line:'你自己的情绪稳，也能敏锐感知对方的情绪',
+    icon:'🌊',
+    read:'你在情绪场域里很舒适——既能安抚自己，也能托住伴侣。你是关系里的情绪避风港。',
+    combo:'情绪稳定 + 共情敏锐',
+    challenge:'你太擅长处理情绪，可能会在关系中承担过多"情绪劳动"。'
+  },
+  'attachment+empathy':{
+    name:'依恋共情型',line:'你有安全感，也愿意走进对方的内心',
+    icon:'🤝',
+    read:'你既不会被依恋焦虑裹挟，也不会回避亲密。伴侣跟你在一起，容易感到被理解和被接纳。',
+    combo:'依恋安全 + 共情充分',
+    challenge:'你的安全感可能让你难以理解极度焦虑或回避型伴侣，容易把对方的行为"理性化"。'
+  },
+  'self+communication':{
+    name:'清醒表达型',line:'你知道自己要什么，也说得出口',
+    icon:'✨',
+    read:'你很少在关系里迷失方向，也不会把需求憋成委屈。你的关系通常是高效且真实的。',
+    combo:'自我清晰 + 表达直接',
+    challenge:'你的清醒可能被伴侣感受为"冷静到有点冷"，记得也表达欣赏和想念。'
+  },
+  'emotion+attachment':{
+    name:'情绪安全型',line:'你情绪稳、心不慌，能给关系提供安全感',
+    icon:'🏠',
+    read:'你不轻易被情绪波动带跑，也不会因为距离而焦虑。和你在一起，伴侣容易感到踏实。',
+    combo:'情绪稳定 + 依恋安全',
+    challenge:'你太稳了，可能会错过伴侣需要"被强烈回应"的情绪时刻。'
+  },
+  'default':{
+    name:'平衡发展型',line:'你的恋爱能力没有明显偏科，各方面都在线',
+    icon:'⚖️',
+    read:'你各维度分数比较接近，没有特别突出的长板，也没有致命的短板。这种均衡本身就是一种能力。',
+    combo:'均衡发展',
+    challenge:'你可能缺少一个让人印象深刻的"恋爱标签"，需要在实践中找到自己最独特的优势。'
+  }
+};
+
+/* ---------- 新增：维度深度解读 ---------- */
+const DIM_DEEP = {
+  self:{
+    why:'自我认知是恋爱力的地基。一个知道自己是谁、要什么的人，才不会把自我价值全部外包给伴侣的回应。',
+    high:'你在关系里能守住自己的边界、兴趣和社交圈，不会因为恋爱就"消失"。你不会把对方的冷落自动解读为"我不值得被爱"。',
+    skill:'你擅长"课题分离"：分得清哪些是对方的事，哪些是自己的功课。'
+  },
+  emotion:{
+    why:'情绪调节决定了一段关系能走多远。情绪上头时的 90 秒，往往决定了冲突是升级还是被接住。',
+    high:'你不会让一次未回复的消息毁掉一整天，也不会在吵架时把最狠的话扔向对方。你是关系里的情绪稳定器。',
+    skill:'你擅长"情绪冲浪"：允许情绪经过自己，而不被它完全卷走。'
+  },
+  attachment:{
+    why:'依恋模式是我们早年习得的亲密剧本。它决定了我们在靠近和分离之间如何找平衡。',
+    high:'你既能享受亲密，也能耐受距离。你不会用查岗和测试来换安全感，也不会在关系变近时想逃。',
+    skill:'你擅长"安全基地"功能：自己稳，也能让伴侣感到被接纳。'
+  },
+  empathy:{
+    why:'共情不是"我懂我懂"，而是让对方感到"我被看见了"。它是亲密关系里最被渴望的体验之一。',
+    high:'你能先接住情绪，再处理问题。你不会在对方难过时急着给建议，也不会让对方的痛苦被最小化。',
+    skill:'你擅长"情绪命名"：帮对方把模糊的感受说出来。'
+  },
+  communication:{
+    why:'沟通表达是需求的运输管道。管道堵了，爱就过不去；管道通了，冲突也能变成理解。',
+    high:'你能把委屈说成需求，把不满说成请求。你不会等对方猜，也不会用指责开场。',
+    skill:'你擅长"软化开场"：再难的话题，也能用"我"开头、低声量地打开。'
+  },
+  repair:{
+    why:'再恩爱的伴侣也会吵架。冲突修复能力，才是关系免疫系统的强度指标。',
+    high:'你不会让冷战超过心理安全时限，也不会假装冲突没发生过。你甚至能把吵架变成"关系疫苗"。',
+    skill:'你擅长"修复尝试"：在冲突中主动递台阶、喊暂停、发起复盘。'
+  }
+};
+
+/* ---------- 新增：需补偿能力库 ---------- */
+const COMPENSATIONS = {
+  self:{name:'自我分化',tag:'边界力',why:'容易在关系里弄丢自己，把自我价值感交给对方打分。',tip:'每周留半天"不带对象"的独处时间，先恢复自己的生活锚点。'},
+  emotion:{name:'情绪调节',tag:'稳定力',why:'情绪容易被对方牵动，上头时理性掉线。',tip:'情绪峰值时先等 90 秒，不做任何关系决定。'},
+  attachment:{name:'依恋安全感',tag:'信任力',why:'安全感不足，容易焦虑查岗或回避亲密。',tip:'把"测试/查岗"换成一句直球："我现在有点没安全感。"'},
+  empathy:{name:'共情回应',tag:'接情绪',why:'容易急着给建议，忽略对方的情绪。',tip:'先问一句："你需要我陪着，还是需要建议？"'},
+  communication:{name:'需求表达',tag:'开口力',why:'习惯把需求憋着，等对方猜。',tip:'背下非暴力沟通句式，本周至少用一次。'},
+  repair:{name:'冲突修复',tag:'破冰力',why:'吵架后冷战或硬撑，不会主动修复。',tip:'给自己立规矩：冷战不超过 24 小时。'}
+};
+
+/* ---------- 新增：适合伴侣画像库 ---------- */
+const PARTNER_PROFILES = {
+  self:{name:'尊重边界的伴侣',match:96,traits:['支持你有独立生活','不把你当作情绪附属品','尊重你的社交和独处需求'],why:'你的自我分化还在建设中，需要一个不会吞噬你边界的人。'},
+  emotion:{name:'情绪稳定的伴侣',match:94,traits:['不会被你的情绪带跑','能在你上头时稳住场面','愿意等你冷静后再谈'],why:'你的情绪调节需要练习，一个情绪容器更稳的伴侣能给你示范。'},
+  attachment:{name:'安全型依恋伴侣',match:95,traits:['回应稳定、不忽冷忽热','愿意直接表达爱意','不会因为你要确认就厌烦'],why:'安全型伴侣是你修复依恋模式最好的"外部调节器"。'},
+  empathy:{name:'善于表达感受的伴侣',match:93,traits:['能直接说出自己的情绪','不让你猜','愿意教你TA需要什么'],why:'你需要一个把需求说清楚的人，减少你"给错回应"的概率。'},
+  communication:{name:'主动沟通的伴侣',match:92,traits:['不怕冲突、愿意开口','能用"我"开头表达','会主动发起敏感话题对话'],why:'你缺的不是沟通能力，而是开口的勇气，对方主动能帮你启动。'},
+  repair:{name:'愿意先低头的伴侣',match:91,traits:['吵架后会递台阶','不把低头当输','愿意复盘而不是翻旧账'],why:'你需要一个能打破冷战循环的人，先学会接住对方的修复信号。'}
+};
+
+/* ---------- 新增：行动计划库 ---------- */
+const ACTION_PLANS = {
+  self:{
+    short:['每周留半天"完全不带对象"的独处时间','写下 3 条你不可让渡的底线'],
+    mid:['恢复一项恋爱前的爱好或朋友圈','读《被讨厌的勇气》第2章"课题分离"'],
+    long:['建立"我首先是完整的自己"的自我叙事','把边界清晰表达给伴侣，而不是靠忍耐维持']
+  },
+  emotion:{
+    short:['情绪峰值时等 90 秒再回复消息','在手机备忘录建"情绪触发点清单"'],
+    mid:['读《情绪急救》并做 1-2 个练习','和伴侣约定一个"暂停暗号"'],
+    long:['形成"情绪经过我，但不替我做决定"的肌肉记忆','能在冲突顶点主动喊停并重启对话']
+  },
+  attachment:{
+    short:['把一次"测试/查岗"改成直球表达','记录一次"对方没回消息"的灾难化想法'],
+    mid:['读《依恋》（Attached）前3章','练习写 2 个更现实的替代解释'],
+    long:['把"空间需求"解读为正常需求而不是分手信号','成为能给伴侣安全感的人']
+  },
+  empathy:{
+    short:['每次对方吐槽前先问"要陪伴还是建议"','练习一次"先复述再回应"'],
+    mid:['读《共情的力量》第2章','连续一周只陪伴、不给建议'],
+    long:['区分"共情"与"过度承担"','成为能接住情绪也守得住自己的人']
+  },
+  communication:{
+    short:['背下非暴力沟通万能句式并用一次','把藏了 72 小时以上的需求写出来'],
+    mid:['用"软化开场"谈一个敏感话题','每周固定一次"无手机深度对话"'],
+    long:['形成"不猜心、不憋着"的沟通习惯','能在高压对话中只接内容、不接攻击']
+  },
+  repair:{
+    short:['立规矩：冷战不超过 24 小时','接住对方一次递来的台阶'],
+    mid:['读《幸福的婚姻》"修复尝试"章节','和伴侣共创一个"停战暗号"'],
+    long:['每次大吵后做 10 分钟复盘','把冲突变成"关系疫苗"而不是创伤记忆']
+  }
+};
+
 /* ---------- 等级（刻度按 3题/维度 × 0.7/0.3 平滑公式的实际分值区间 36-77 校准） ---------- */
 function levelOf(total){
   if(total>=75) return {name:'天选恋人', line:'各项在线，请务必把方法分享给人类'};
@@ -606,14 +811,51 @@ function totalScore(){
   const scores = DIMS.map(d=>session.perDim[d.id].score);
   return Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
 }
+
+/* ---------- 新增：根据六维分数生成完整文字报告 ---------- */
+function buildReport(dims){
+  const sorted = dims.slice().sort((a,b)=>b.score-a.score);
+  const top = sorted[0], second = sorted[1];
+  const bottom = sorted[sorted.length-1], bottom2 = sorted[sorted.length-2];
+  // 类型：取 top2 维度组合（忽略顺序）
+  const key = [top.id, second.id].sort().join('+');
+  const type = LOVETYPES[key] || LOVETYPES['default'];
+  // 核心优势组合文本
+  const comboText = type.combo;
+  // 潜在挑战：基于最弱维度
+  const challenge = COMPENSATIONS[bottom.id];
+  // 需补偿能力：bottom2
+  const comps = [bottom, bottom2].map(d=>({...COMPENSATIONS[d.id], id:d.id, score:d.score, pct:Math.min(100, Math.round((100-d.score)*0.9+60))}));
+  // 伴侣画像：基于最弱维度的互补
+  const partners = [bottom, bottom2].map(d=>({...PARTNER_PROFILES[d.id], id:d.id, weakScore:d.score}));
+  // 行动计划：基于最弱两个维度各取一条，合并成短/中/长期
+  const plan = {
+    short:[ACTION_PLANS[bottom.id].short[0], ACTION_PLANS[bottom2.id].short[0]],
+    mid:[ACTION_PLANS[bottom.id].mid[0], ACTION_PLANS[bottom2.id].mid[0]],
+    long:[ACTION_PLANS[bottom.id].long[0], ACTION_PLANS[bottom2.id].long[0]]
+  };
+  // 相对不是主力方向的维度（取中间偏下的一个）
+  const nonMain = sorted[Math.floor(sorted.length/2)];
+  return {
+    type, comboText,
+    top, second, bottom, bottom2,
+    challenge,
+    comps, partners, plan,
+    dimDeep: DIM_DEEP[top.id],
+    nonMainNote: nonMain
+  };
+}
+
 function buildSnapshot(){
+  const dims = DIMS.map(d=>({id:d.id, name:d.name, score:session.perDim[d.id].score}));
   return {
     date: Date.now(),
     total: totalScore(),
-    dims: DIMS.map(d=>({id:d.id, name:d.name, score:session.perDim[d.id].score})),
+    dims,
     answered: session.answers.length,
     correct: session.answers.filter(a=>a.correct).length,
     summaries: Object.fromEntries(DIMS.map(d=>[d.id, diagnosisFor(d.id).summary])),
+    report: buildReport(dims),
     detail: session.answers.map(a=>({qid:a.qid, chosen:a.chosen, correct:a.correct, dim:a.dim}))
   };
 }
@@ -918,15 +1160,53 @@ function renderResult(idx){
     diagBlock = `<div class="card" style="margin-top:18px"><p class="muted small">这是历史报告，个性化诊断仅当次测评后可见。${isCurrent?'':'<a href="javascript:void(0)" onclick="startQuiz(true)">做一次新的测评 →</a>'}</p></div>`;
   }
 
+  // 计算报告（兼容旧快照）
+  const report = snap.report || buildReport(snap.dims);
+  // 把总分 36-77 线性映射到 0-100% 显示（符合"综合匹配度"语义）
+  const pct = Math.max(0, Math.min(100, Math.round((snap.total - 36) / (77 - 36) * 100)));
+
   app.innerHTML = `
   <div style="margin-top:24px">
-    <div class="card center">
+    <div class="card center love-type-card">
       <div class="small muted">你的恋爱能力综合分</div>
-      <div class="score-big" style="color:${snap.total>=70?'var(--green)':snap.total>=50?'var(--primary)':'var(--orange)'}">${snap.total}</div>
-      <div class="serif" style="font-size:20px;font-weight:700">${esc(lv.name)}</div>
+      <div class="score-ring" style="margin-top:10px">
+        <svg viewBox="0 0 160 160" width="160" height="160">
+          <circle cx="80" cy="80" r="70" fill="none" stroke="#eee4da" stroke-width="12"/>
+          <circle cx="80" cy="80" r="70" fill="none" stroke="${snap.total>=70?'var(--green)':snap.total>=50?'var(--primary)':'var(--orange)'}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${Math.max(0, Math.min(440, Math.round(pct/100*440)))} 440"/>
+        </svg>
+        <div class="pct"><b style="color:${snap.total>=70?'var(--green)':snap.total>=50?'var(--primary)':'var(--orange)'}">${pct}%</b><span>综合匹配度</span></div>
+      </div>
+      <div class="serif" style="font-size:20px;font-weight:700;margin-top:12px">${esc(lv.name)}</div>
       <div class="muted" style="margin-top:4px">${esc(lv.line)}</div>
       <div class="small muted" style="margin-top:8px">共答 ${snap.answered} 题 · 稳定应对 ${snap.correct} 题 · ${new Date(snap.date).toLocaleString()}</div>
     </div>
+
+    <div class="card" style="margin-top:18px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <span style="font-size:28px">${report.type.icon}</span>
+        <div>
+          <div class="small muted">你的恋爱风格</div>
+          <div class="type-name serif">${esc(report.type.name)}</div>
+        </div>
+      </div>
+      <div class="type-tags">
+        <span class="type-tag" style="background:${DIMMAP[report.top.id].color}20;color:${DIMMAP[report.top.id].color};border-color:${DIMMAP[report.top.id].color}40">${esc(report.top.name)} ${report.top.score} 分</span>
+        <span class="type-tag" style="background:${DIMMAP[report.second.id].color}20;color:${DIMMAP[report.second.id].color};border-color:${DIMMAP[report.second.id].color}40">${esc(report.second.name)} ${report.second.score} 分</span>
+        <span class="type-tag">${esc(report.comboText)}</span>
+      </div>
+      <p class="muted" style="font-size:15px;line-height:1.7">${esc(report.type.read)}</p>
+      <div class="section-title"><span>⚡</span> 潜在挑战</div>
+      <div class="weakbox">${esc(report.type.challenge)}<br><span class="muted">最需留意的维度：<b>${esc(report.bottom.name)}</b>（${report.bottom.score} 分）—— ${esc(report.challenge.why)}</span></div>
+      <div class="section-title"><span>🌟</span> 核心优势深度解读</div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:16px">${esc(report.top.name)} · 你的第一恋爱力</b><span style="font-size:13px;color:var(--green);font-weight:700">${report.top.score}/100</span></div>
+        <div style="height:6px;background:#f0e6df;border-radius:3px;margin:8px 0"><div style="width:${report.top.score}%;height:100%;background:var(--green);border-radius:3px"></div></div>
+        <p class="small muted" style="margin-top:8px">${esc(report.dimDeep.why)}</p>
+        <p class="small" style="margin-top:8px;line-height:1.7">${esc(report.dimDeep.high)}</p>
+        <div class="encourage" style="margin-top:10px">${esc(report.dimDeep.skill)}</div>
+      </div>
+    </div>
+
     <div class="card" style="margin-top:18px">
       <h3 style="font-size:18px">六维雷达图</h3>
       ${radarSVG(snap.dims)}
@@ -934,6 +1214,46 @@ function renderResult(idx){
     </div>
     ${compareBlock}
     ${diagBlock}
+
+    <div class="card" style="margin-top:18px">
+      <h3 style="font-size:18px">规划方向</h3>
+      <p class="small muted" style="margin:6px 0 12px">基于你的报告，恋爱中需要重点补的能力 & 更适合你的伴侣类型</p>
+
+      <div class="section-title"><span>📌</span> 恋爱中需要补偿的能力</div>
+      ${report.comps.map((c,i)=>`<div class="comp-item">
+        <div class="comp-top"><b>${i+1}. ${esc(c.name)}</b><span style="font-size:12px;color:var(--primary);font-weight:700">重要度 ${c.pct}%</span></div>
+        <div class="comp-bar"><div style="width:${c.pct}%"></div></div>
+        <div class="small muted" style="margin-top:8px"><span class="badge tag-o">${esc(c.tag)}</span> ${esc(c.why)}</div>
+        <div class="small" style="margin-top:6px;color:var(--ink2)">💡 ${esc(c.tip)}</div>
+      </div>`).join('')}
+
+      <div class="section-title"><span>💞</span> 适合找的伴侣类型</div>
+      ${report.partners.map((p,i)=>`<div class="partner-item">
+        <div style="display:flex;justify-content:space-between;align-items:center"><b>${i+1}. ${esc(p.name)}</b><span class="partner-match">匹配度 ${p.match}%</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0">${p.traits.map(t=>`<span class="type-tag" style="font-size:11px">${esc(t)}</span>`).join('')}</div>
+        <div class="small muted">${esc(p.why)}</div>
+      </div>`).join('')}
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3 style="font-size:18px">行动计划</h3>
+      <p class="small muted" style="margin:6px 0 12px">一份可以直接照着做的清单。先从短期目标里挑 1-2 条开始。</p>
+
+      <div class="plan-card">
+        <div class="plan-head"><span>🎯</span> 短期目标 <span class="small muted" style="font-weight:400">1-3 个月</span></div>
+        ${report.plan.short.map(a=>`<div class="plan-item"><div class="chk">✓</div><div>${esc(a)}</div></div>`).join('')}
+      </div>
+      <div class="plan-card">
+        <div class="plan-head"><span>📈</span> 中期发展 <span class="small muted" style="font-weight:400">6-12 个月</span></div>
+        ${report.plan.mid.map(a=>`<div class="plan-item"><div class="chk">✓</div><div>${esc(a)}</div></div>`).join('')}
+      </div>
+      <div class="plan-card">
+        <div class="plan-head"><span>🌟</span> 长期愿景 <span class="small muted" style="font-weight:400">持续</span></div>
+        ${report.plan.long.map(a=>`<div class="plan-item"><div class="chk">✓</div><div>${esc(a)}</div></div>`).join('')}
+      </div>
+
+      <div class="weakbox" style="margin-top:14px">相对而言，<b>${esc(report.nonMainNote.name)}</b>（${report.nonMainNote.score} 分）目前不是你的主力方向，不必强求短期突破，先把上方两项补短板练熟。</div>
+    </div>
     <div class="card" style="margin-top:18px">
       <h3 style="font-size:18px">把结果发出去</h3>
       <p class="small muted" style="margin:6px 0 12px">生成一份可以直接发小红书/朋友圈的文案：</p>
@@ -984,22 +1304,27 @@ function closeModal(){ if(modalEl){ modalEl.remove(); modalEl=null; } }
 function shareCopy(){
   const snaps = getSnapshots();
   const snap = snaps[snaps.length-1];
-  const sorted = snap.dims.slice().sort((a,b)=>b.score-a.score);
-  const strongest = sorted[0], weakest = sorted[sorted.length-1];
+  const report = snap.report || buildReport(snap.dims);
   const lv = levelOf(snap.total);
-  const dg = snap.summaries ? {summary: snap.summaries[weakest.id]} : null;
-  const hook = dg ? dg.summary : '有些维度，只有测了才知道自己在裸泳';
   const text =
 `【恋爱能力测评】我拿了 ${snap.total} 分 · ${lv.name}
 
-最强项：${strongest.name} ${strongest.score} 分
-隐藏短板：${weakest.name} ${weakest.score} 分
-最扎心的一句诊断：「${hook}」
+我的恋爱风格：${report.type.name}
+${report.type.line}
 
-18 道真实恋爱情景题，5 分钟出六维雷达图，
+最强项：${report.top.name} ${report.top.score} 分
+隐藏短板：${report.bottom.name} ${report.bottom.score} 分
+
+需要重点补的能力：
+① ${report.comps[0].name}（${report.comps[0].tag}）
+② ${report.comps[1].name}（${report.comps[1].tag}）
+
+适合找的伴侣：${report.partners[0].name}
+
+18 道真实恋爱情景题，5 分钟出六维雷达图+完整报告，
 基于依恋理论 × 情绪脑科学设计。
 
-→ 你能拿几分？评论区报分，看看谁是恋爱脑重灾区`;
+→ 你是什么恋爱风格？评论区报分，看看谁是恋爱脑重灾区`;
 
   const box = document.getElementById('shareBox');
   box.style.display='block'; box.textContent = text;
