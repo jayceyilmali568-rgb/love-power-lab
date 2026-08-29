@@ -6,7 +6,7 @@
 
 一个**单文件、零依赖、零后端**的 Web 应用：打开 `index.html` 即可运行，可部署到任意静态托管（GitHub Pages / Vercel / Netlify）。
 
-👉 在线体验：[GitHub Pages 地址]（部署后更新）
+👉 在线体验：https://6f330c5e490149bca547211b100ebba7.app.workbuddy.link
 
 ---
 
