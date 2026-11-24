@@ -6,7 +6,9 @@
 
 一个**单文件、零依赖、零后端**的 Web 应用：打开 `index.html` 即可运行，可部署到任意静态托管（GitHub Pages / Vercel / Netlify）。
 
-👉 在线体验：https://6f330c5e490149bca547211b100ebba7.app.workbuddy.link
+👉 在线体验：https://6f330c5e490149bca547211b100ebba7.app.workbuddy.link/?sharecode=J6S2EOOKKX
+
+> 注意：分享链接必须带 `?sharecode=` 参数，缺了会显示「链接不完整」。
 
 ---
 
@@ -64,9 +66,31 @@ cd love-power-lab
 
 ```
 love-power-lab/
-├── index.html   # 全部代码（页面 + 样式 + 题库数据 + CAT 算法）
+├── index.html           # 全部代码（页面 + 样式 + 题库数据 + CAT 算法）
+├── knowledge-base.json  # RAG-ready 知识库（193 个 chunks，含全部测评知识资产）
 └── README.md
 ```
+
+## RAG 知识库
+
+`knowledge-base.json` 把项目中所有可被检索的知识资产导出为结构化 chunks，可直接接入 RAG 管道：
+
+| chunk 类型 | 数量 | 内容 |
+|---|---|---|
+| `dimension` | 6 | 六维能力定义 + 理论重要性 + 高分表现 + 核心技能 |
+| `question` | 60 | 情景题题干、4 个选项（含质量分与陷阱标签）、专业解析 |
+| `summary` | 24 | 6 维度 × 4 分数段的一句话诊断 |
+| `advice` | 24 | 6 维度 × 4 分数段的可执行改进建议 |
+| `resource` | 18 | 推荐书目/文章/视频（含出处、投入时长、推荐理由、检索关键词） |
+| `love_type` | 13 | 恋爱风格类型定义（触发条件 + 解读 + 优势组合 + 潜在挑战） |
+| `compensation` | 6 | 需补偿能力（问题表现 + 练习入口） |
+| `partner_profile` | 6 | 适合的伴侣类型（匹配度 + 特质标签 + 适配理由） |
+| `action_plan` | 36 | 短/中/长期分阶段行动项 |
+| **合计** | **193** | |
+
+每个 chunk 含 `id / type / dim / title / text / meta` 字段：`text` 可直接用于 embedding，`meta` 可用于过滤与重排序。
+
+**理论依据**：依恋理论（Bowlby、Ainsworth、Hazan & Shaver）、成人依恋（Amir Levine《Attached》）、戈特曼方法（修复尝试、四骑士、软化开场、情绪银行）、非暴力沟通（Marshall Rosenberg）、Bowen 家庭系统理论（自我分化）、情绪神经科学（杏仁核劫持、90 秒法则、Davidson 情绪风格）、共情研究（Brené Brown 脆弱性）。
 
 ## License
 
